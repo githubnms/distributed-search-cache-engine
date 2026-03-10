@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSCE - Distributed Search & Cache Engine</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <span class="logo-icon">🔍</span>
+                    <span class="logo-text">DSCE</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active" data-page="home">Home</a>
+                    <a href="#" class="nav-link" data-page="search">Search</a>
+                    <a href="#" class="nav-link" data-page="analytics">Analytics</a>
+                    <a href="#" class="nav-link" data-page="status">System Status</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <span class="badge">v1.0.0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <div class="hero-section">
+                <h1 class="hero-title">Distributed Search & Cache Engine</h1>
+                <p class="hero-subtitle">Enterprise-grade search with distributed caching and real-time analytics</p>
+                
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <input 
+                            type="text" 
+                            id="home-search" 
+                            class="search-input" 
+                            placeholder="Search documents... Try 'artificial intelligence' or 'machine learning'"
+                            autocomplete="off"
+                        >
+                        <button class="search-button" id="home-search-btn">
+                            <span class="search-icon">🔍</span>
+                            Search
+                        </button>
+                    </div>
+                    <div id="home-suggestions" class="suggestions-dropdown"></div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-docs">12.5K</div>
+                        <div class="stat-label">Documents</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="cache-rate">76%</div>
+                        <div class="stat-label">Cache Hit Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avg-time">45ms</div>
+                        <div class="stat-label">Avg Response</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="features-section">
+                <h2 class="section-title">Enterprise Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Distributed Cache</h3>
+                        <p>Redis-based caching with adaptive TTL for popular queries</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Real-time Analytics</h3>
+                        <p>Monitor search performance and cache hit rates</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔎</div>
+                        <h3>Inverted Index</h3>
+                        <p>Fast full-text search with relevance ranking</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>Fault Tolerant</h3>
+                        <p>Automatic fallback if cache or database fails</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Page -->
+        <div id="search-page" class="page">
+            <div class="search-header">
+                <h2>Document Search</h2>
+                <div class="search-filters">
+                    <select id="sort-select">
+                        <option value="relevance">Sort by Relevance</option>
+                        <option value="date">Sort by Date</option>
+                        <option value="popularity">Sort by Popularity</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        class="search-input" 
+                        placeholder="Enter your search query..."
+                        autocomplete="off"
+                    >
+                    <button class="search-button" id="search-btn">
+                        <span class="search-icon">🔍</span>
+                        Search
+                    </button>
+                </div>
+                <div id="suggestions" class="suggestions-dropdown"></div>
+            </div>
+
+            <!-- Search Results -->
+            <div class="results-container">
+                <div class="results-header" id="results-header"></div>
+                <div id="results-list" class="results-list"></div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div id="analytics-page" class="page">
+            <h2>Search Analytics Dashboard</h2>
+            
+            <!-- Metrics Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-title">Total Searches</div>
+                    <div class="metric-value" id="total-searches">0</div>
+                    <div class="metric-trend positive" id="search-trend">+12%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Cache Hit Rate</div>
+                    <div class="metric-value" id="cache-hit-rate">0%</div>
+                    <div class="metric-trend positive" id="cache-trend">+5%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Avg Response Time</div>
+                    <div class="metric-value" id="avg-response">0ms</div>
+                    <div class="metric-trend negative" id="response-trend">-2ms</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Documents Indexed</div>
+                    <div class="metric-value" id="total-documents">0</div>
+                    <div class="metric-subtitle">+12 today</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Search Volume (Last 24h)</h3>
+                    <canvas id="search-volume-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Cache Performance</h3>
+                    <canvas id="cache-performance-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Top Queries -->
+            <div class="queries-section">
+                <h3>Top Search Queries</h3>
+                <div class="table-container">
+                    <table class="queries-table">
+                        <thead>
+                            <tr>
+                                <th>Query</th>
+                                <th>Search Count</th>
+                                <th>Avg Response Time</th>
+                                <th>Cache Hit Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-queries-body">
+                            <tr>
+                                <td colspan="4" class="loading">Loading data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status Page -->
+        <div id="status-page" class="page">
+            <h2>System Status</h2>
+            
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-header">
+                        <h3>API Service</h3>
+                        <span class="status-badge operational">Operational</span>
+                    </div>
+                    <div class="status-metrics">
+                        <div class="status-metric">
+                            <span>Uptime:</span>
+                            <span id="api-uptime">99.9%</span>
+                        </div>
+                        <div class="status-metric">
+                            <span>Requests/min:</span>
+                            <span id="api-requests">1,234</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header">
+                        <h3>Database</h3>
+                        <span class="status-badge operational">Operational</span>
+                    </div>
+                    <div class="status-metrics">
+                        <div class="status-metric">
+                            <span>Connections:</span>
+                            <span id="db-connections">12</span>
+                        </div>
+                        <div class="status-metric">
+                            <span>Query latency:</span>
+                            <span id="db-latency">23ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header">
+                        <h3>Redis Cache</h3>
+                        <span class="status-badge operational">Operational</span>
+                    </div>
+                    <div class="status-metrics">
+                        <div class="status-metric">
+                            <span>Memory used:</span>
+                            <span id="redis-memory">156MB</span>
+                        </div>
+                        <div class="status-metric">
+                            <span>Hit rate:</span>
+                            <span id="redis-hit-rate">76%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-header">
+                        <h3>Index Shards</h3>
+                        <span class="status-badge operational">Operational</span>
+                    </div>
+                    <div class="shard-stats" id="shard-stats"></div>
+                </div>
+            </div>
+
+            <!-- Recent Incidents -->
+            <div class="incidents-section">
+                <h3>Recent Incidents</h3>
+                <div class="incidents-list" id="incidents-list">
+                    <div class="incident-item resolved">
+                        <span class="incident-time">2h ago</span>
+                        <span class="incident-title">Redis connection timeout</span>
+                        <span class="incident-status resolved">Resolved</span>
+                    </div>
+                    <div class="incident-item monitoring">
+                        <span class="incident-time">1d ago</span>
+                        <span class="incident-title">High query latency</span>
+                        <span class="incident-status monitoring">Monitoring</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

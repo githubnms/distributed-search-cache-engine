@@ -6,285 +6,717 @@
     <title>DSCE - Distributed Search & Cache Engine</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-left">
-                <div class="logo">
-                    <span class="logo-icon">🔍</span>
-                    <span class="logo-text">DSCE</span>
-                </div>
-                <div class="nav-links">
-                    <a href="#" class="nav-link active" data-page="home">Home</a>
-                    <a href="#" class="nav-link" data-page="search">Search</a>
-                    <a href="#" class="nav-link" data-page="analytics">Analytics</a>
-                    <a href="#" class="nav-link" data-page="status">System Status</a>
-                </div>
+    <!-- AWS-Style Navigation -->
+    <nav class="aws-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fas fa-search"></i>
+                <span>DSCE</span>
             </div>
-            <div class="nav-right">
-                <span class="badge">v1.0.0</span>
+            <div class="nav-menu">
+                <button class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-page="search">
+                    <i class="fas fa-search"></i>
+                    <span>Search Console</span>
+                </button>
+                <button class="nav-item" data-page="documents">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Documents</span>
+                </button>
+                <button class="nav-item" data-page="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </button>
+                <button class="nav-item" data-page="status">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>System Status</span>
+                </button>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="region-selector">
+                <i class="fas fa-globe"></i>
+                <span>US-East-1</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="user-menu">
+                <i class="fas fa-user-circle"></i>
+                <span>Admin</span>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Home Page -->
-        <div id="home-page" class="page active">
-            <div class="hero-section">
-                <h1 class="hero-title">Distributed Search & Cache Engine</h1>
-                <p class="hero-subtitle">Enterprise-grade search with distributed caching and real-time analytics</p>
-                
-                <!-- Search Bar -->
-                <div class="search-container">
-                    <div class="search-wrapper">
-                        <input 
-                            type="text" 
-                            id="home-search" 
-                            class="search-input" 
-                            placeholder="Search documents... Try 'artificial intelligence' or 'machine learning'"
-                            autocomplete="off"
-                        >
-                        <button class="search-button" id="home-search-btn">
-                            <span class="search-icon">🔍</span>
-                            Search
-                        </button>
-                    </div>
-                    <div id="home-suggestions" class="suggestions-dropdown"></div>
+    <!-- Main Container -->
+    <div class="aws-container">
+        <!-- Sidebar -->
+        <aside class="aws-sidebar">
+            <div class="sidebar-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li class="active"><i class="fas fa-database"></i> Documents <span class="badge" id="sidebar-doc-count">0</span></li>
+                    <li><i class="fas fa-cog"></i> Indexes <span class="badge" id="sidebar-index-size">0MB</span></li>
+                    <li><i class="fas fa-hdd"></i> Cache <span class="badge" id="sidebar-cache-size">0MB</span></li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <h3>Quick Actions</h3>
+                <ul>
+                    <li id="quick-upload"><i class="fas fa-upload"></i> Upload Document</li>
+                    <li id="quick-reindex"><i class="fas fa-sync"></i> Rebuild Index</li>
+                    <li id="quick-clear-cache"><i class="fas fa-trash"></i> Clear Cache</li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <h3>Recent Searches</h3>
+                <ul id="recent-searches-list">
+                    <li class="loading">Loading...</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="aws-main">
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page active">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <h1>Welcome to DSCE <span class="environment-badge production">PRODUCTION</span></h1>
+                    <p>Distributed Search & Cache Engine - Enterprise Search Platform</p>
                 </div>
 
-                <!-- Quick Stats -->
-                <div class="quick-stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="total-docs">12.5K</div>
-                        <div class="stat-label">Documents</div>
+                <!-- Service Health Cards -->
+                <div class="service-health-grid">
+                    <div class="service-card operational">
+                        <div class="service-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="service-info">
+                            <h4>API Service</h4>
+                            <span class="status">Operational</span>
+                            <small>99.9% uptime</small>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="cache-rate">76%</div>
-                        <div class="stat-label">Cache Hit Rate</div>
+                    <div class="service-card operational">
+                        <div class="service-icon"><i class="fas fa-database"></i></div>
+                        <div class="service-info">
+                            <h4>Database</h4>
+                            <span class="status">Operational</span>
+                            <small>12 connections</small>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="avg-time">45ms</div>
-                        <div class="stat-label">Avg Response</div>
+                    <div class="service-card operational">
+                        <div class="service-icon"><i class="fas fa-memory"></i></div>
+                        <div class="service-info">
+                            <h4>Redis Cache</h4>
+                            <span class="status">Operational</span>
+                            <small id="cache-memory">156 MB used</small>
+                        </div>
+                    </div>
+                    <div class="service-card operational">
+                        <div class="service-icon"><i class="fas fa-chart-pie"></i></div>
+                        <div class="service-info">
+                            <h4>Index Shards</h4>
+                            <span class="status">3/3 Healthy</span>
+                            <small>A-F, G-M, N-Z</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="metrics-dashboard">
+                    <div class="metric-card primary">
+                        <div class="metric-header">
+                            <h3>Total Searches</h3>
+                            <i class="fas fa-info-circle tooltip" title="Total searches performed today"></i>
+                        </div>
+                        <div class="metric-value" id="metric-total-searches">124,567</div>
+                        <div class="metric-change positive">+12.3% <i class="fas fa-arrow-up"></i></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Cache Hit Rate</h3>
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="metric-value" id="metric-cache-rate">76.4%</div>
+                        <div class="metric-change positive">+5.2% <i class="fas fa-arrow-up"></i></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Avg Response</h3>
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="metric-value" id="metric-response-time">45ms</div>
+                        <div class="metric-change negative">-2.1ms <i class="fas fa-arrow-down"></i></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Documents</h3>
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="metric-value" id="metric-documents">1,250</div>
+                        <div class="metric-change positive">+24 <i class="fas fa-arrow-up"></i></div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Search Volume (Last 24h)</h3>
+                            <select id="search-volume-range">
+                                <option>Last 24 hours</option>
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="search-volume-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Cache Performance</h3>
+                            <select id="cache-performance-range">
+                                <option>Hit Rate</option>
+                                <option>Memory Usage</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="cache-performance-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Queries & Recent Activity -->
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-fire"></i> Top Search Queries</h3>
+                            <button class="view-all">View All <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <table class="top-queries-table" id="top-queries-table">
+                                <thead>
+                                    <tr>
+                                        <th>Query</th>
+                                        <th>Searches</th>
+                                        <th>Cache Hit %</th>
+                                        <th>Avg Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top-queries-body">
+                                    <tr>
+                                        <td colspan="4" class="loading">Loading data...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                            <button class="view-all">Refresh</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-feed" id="activity-feed">
+                                <div class="activity-item">
+                                    <i class="fas fa-search activity-icon"></i>
+                                    <div class="activity-details">
+                                        <span class="activity-text">Searched for "machine learning"</span>
+                                        <span class="activity-time">2 minutes ago</span>
+                                    </div>
+                                    <span class="cache-hit">CACHE</span>
+                                </div>
+                                <div class="activity-item">
+                                    <i class="fas fa-file-upload activity-icon"></i>
+                                    <div class="activity-details">
+                                        <span class="activity-text">Document uploaded: "AI Paper"</span>
+                                        <span class="activity-time">5 minutes ago</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <i class="fas fa-database activity-icon"></i>
+                                    <div class="activity-details">
+                                        <span class="activity-text">Index rebuilt (12,345 documents)</span>
+                                        <span class="activity-time">1 hour ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Features -->
-            <div class="features-section">
-                <h2 class="section-title">Enterprise Features</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Distributed Cache</h3>
-                        <p>Redis-based caching with adaptive TTL for popular queries</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3>Real-time Analytics</h3>
-                        <p>Monitor search performance and cache hit rates</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔎</div>
-                        <h3>Inverted Index</h3>
-                        <p>Fast full-text search with relevance ranking</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🛡️</div>
-                        <h3>Fault Tolerant</h3>
-                        <p>Automatic fallback if cache or database fails</p>
+            <!-- Search Console Page -->
+            <div id="search-page" class="page">
+                <div class="search-header">
+                    <h1>Search Console</h1>
+                    <div class="search-filters">
+                        <div class="filter-group">
+                            <label>Search in:</label>
+                            <select id="search-scope">
+                                <option>All Documents</option>
+                                <option>Recent (7d)</option>
+                                <option>Popular Only</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Sort by:</label>
+                            <select id="search-sort">
+                                <option>Relevance</option>
+                                <option>Date (Newest)</option>
+                                <option>Date (Oldest)</option>
+                                <option>Document Size</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Search Page -->
-        <div id="search-page" class="page">
-            <div class="search-header">
-                <h2>Document Search</h2>
-                <div class="search-filters">
-                    <select id="sort-select">
-                        <option value="relevance">Sort by Relevance</option>
-                        <option value="date">Sort by Date</option>
-                        <option value="popularity">Sort by Popularity</option>
+                <!-- Enhanced Search Bar -->
+                <div class="search-console">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Search documents... Try 'AI', 'machine learning', 'redis'" autocomplete="off">
+                        <button class="search-btn" id="search-btn">Search</button>
+                    </div>
+                    <div class="search-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="exact-match"> Exact match
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="synonym-expand" checked> Expand synonyms
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="fuzzy-search" checked> Fuzzy search
+                        </label>
+                    </div>
+                    <div id="suggestions" class="suggestions-dropdown"></div>
+                </div>
+
+                <!-- Search Results -->
+                <div class="results-container">
+                    <div class="results-header" id="results-header">
+                        <span id="result-stats">0 results (0ms)</span>
+                        <div class="result-actions">
+                            <button class="export-btn"><i class="fas fa-download"></i> Export</button>
+                        </div>
+                    </div>
+                    <div id="results-list" class="results-list"></div>
+                    <div id="pagination" class="pagination"></div>
+                </div>
+            </div>
+
+            <!-- Documents Page -->
+            <div id="documents-page" class="page">
+                <div class="documents-header">
+                    <h1>Document Management</h1>
+                    <button class="primary-btn" id="upload-doc-btn"><i class="fas fa-upload"></i> Upload Document</button>
+                </div>
+
+                <!-- Document Stats -->
+                <div class="doc-stats-grid">
+                    <div class="doc-stat-card">
+                        <i class="fas fa-file-alt"></i>
+                        <div>
+                            <span class="stat-value" id="doc-total">1,250</span>
+                            <span class="stat-label">Total Documents</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <i class="fas fa-chart-bar"></i>
+                        <div>
+                            <span class="stat-value" id="doc-indexed">1,248</span>
+                            <span class="stat-label">Indexed</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <i class="fas fa-hdd"></i>
+                        <div>
+                            <span class="stat-value" id="doc-size">156 MB</span>
+                            <span class="stat-label">Total Size</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <span class="stat-value" id="doc-last-update">2 min ago</span>
+                            <span class="stat-label">Last Update</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Filters -->
+                <div class="doc-filters">
+                    <input type="text" placeholder="Filter documents..." class="filter-input" id="doc-filter">
+                    <select id="doc-sort">
+                        <option>Sort by: Date Added</option>
+                        <option>Sort by: Title</option>
+                        <option>Sort by: Size</option>
+                    </select>
+                    <select id="doc-tag-filter">
+                        <option>All Tags</option>
                     </select>
                 </div>
-            </div>
 
-            <div class="search-container">
-                <div class="search-wrapper">
-                    <input 
-                        type="text" 
-                        id="search-input" 
-                        class="search-input" 
-                        placeholder="Enter your search query..."
-                        autocomplete="off"
-                    >
-                    <button class="search-button" id="search-btn">
-                        <span class="search-icon">🔍</span>
-                        Search
-                    </button>
-                </div>
-                <div id="suggestions" class="suggestions-dropdown"></div>
-            </div>
-
-            <!-- Search Results -->
-            <div class="results-container">
-                <div class="results-header" id="results-header"></div>
-                <div id="results-list" class="results-list"></div>
-                <div class="pagination" id="pagination"></div>
-            </div>
-        </div>
-
-        <!-- Analytics Page -->
-        <div id="analytics-page" class="page">
-            <h2>Search Analytics Dashboard</h2>
-            
-            <!-- Metrics Cards -->
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-title">Total Searches</div>
-                    <div class="metric-value" id="total-searches">0</div>
-                    <div class="metric-trend positive" id="search-trend">+12%</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-title">Cache Hit Rate</div>
-                    <div class="metric-value" id="cache-hit-rate">0%</div>
-                    <div class="metric-trend positive" id="cache-trend">+5%</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-title">Avg Response Time</div>
-                    <div class="metric-value" id="avg-response">0ms</div>
-                    <div class="metric-trend negative" id="response-trend">-2ms</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-title">Documents Indexed</div>
-                    <div class="metric-value" id="total-documents">0</div>
-                    <div class="metric-subtitle">+12 today</div>
-                </div>
-            </div>
-
-            <!-- Charts -->
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <h3>Search Volume (Last 24h)</h3>
-                    <canvas id="search-volume-chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Cache Performance</h3>
-                    <canvas id="cache-performance-chart"></canvas>
-                </div>
-            </div>
-
-            <!-- Top Queries -->
-            <div class="queries-section">
-                <h3>Top Search Queries</h3>
-                <div class="table-container">
-                    <table class="queries-table">
+                <!-- Documents Table -->
+                <div class="documents-table-container">
+                    <table class="documents-table">
                         <thead>
                             <tr>
-                                <th>Query</th>
-                                <th>Search Count</th>
-                                <th>Avg Response Time</th>
-                                <th>Cache Hit Rate</th>
+                                <th><input type="checkbox"></th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Tags</th>
+                                <th>Size</th>
+                                <th>Date Added</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="top-queries-body">
+                        <tbody id="documents-body">
                             <tr>
-                                <td colspan="4" class="loading">Loading data...</td>
+                                <td colspan="7" class="loading">Loading documents...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <div class="documents-pagination" id="doc-pagination"></div>
+            </div>
+
+            <!-- Analytics Page -->
+            <div id="analytics-page" class="page">
+                <h1>Search Analytics</h1>
+                
+                <!-- Analytics Filters -->
+                <div class="analytics-filters">
+                    <select id="analytics-range">
+                        <option>Last 24 hours</option>
+                        <option>Last 7 days</option>
+                        <option>Last 30 days</option>
+                        <option>Custom Range</option>
+                    </select>
+                    <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                </div>
+
+                <!-- Analytics Dashboard -->
+                <div class="analytics-dashboard">
+                    <!-- Performance Metrics -->
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>Search Performance</h3>
+                            <div class="metric-group">
+                                <div class="metric-item">
+                                    <span class="label">Avg Response Time</span>
+                                    <span class="value" id="analytics-avg-time">45 ms</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">P95 Response Time</span>
+                                    <span class="value" id="analytics-p95">89 ms</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">P99 Response Time</span>
+                                    <span class="value" id="analytics-p99">156 ms</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Peak QPS</span>
+                                    <span class="value" id="analytics-qps">234</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Cache Efficiency</h3>
+                            <div class="metric-group">
+                                <div class="metric-item">
+                                    <span class="label">Hit Rate</span>
+                                    <span class="value" id="analytics-hit-rate">76.4%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Hits</span>
+                                    <span class="value" id="analytics-hits">45,678</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Misses</span>
+                                    <span class="value" id="analytics-misses">14,322</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Memory Used</span>
+                                    <span class="value" id="analytics-memory">156 MB</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Document Stats</h3>
+                            <div class="metric-group">
+                                <div class="metric-item">
+                                    <span class="label">Total Documents</span>
+                                    <span class="value" id="analytics-docs">1,250</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Avg Document Size</span>
+                                    <span class="value" id="analytics-avg-size">124 KB</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Unique Terms</span>
+                                    <span class="value" id="analytics-terms">45,678</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="label">Index Size</span>
+                                    <span class="value" id="analytics-index-size">234 MB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Charts -->
+                    <div class="analytics-charts">
+                        <div class="chart-card large">
+                            <h3>Search Volume Over Time</h3>
+                            <canvas id="volume-time-chart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Cache Hit/Miss Ratio</h3>
+                            <canvas id="hit-miss-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Top Queries Analytics -->
+                    <div class="analytics-table-container">
+                        <h3>Top Queries Analytics</h3>
+                        <table class="analytics-table">
+                            <thead>
+                                <tr>
+                                    <th>Query</th>
+                                    <th>Searches</th>
+                                    <th>Cache Hits</th>
+                                    <th>Cache Misses</th>
+                                    <th>Hit Rate</th>
+                                    <th>Avg Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="analytics-queries-body">
+                                <tr>
+                                    <td colspan="6" class="loading">Loading data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Status Page -->
+            <div id="status-page" class="page">
+                <h1>System Status</h1>
+                
+                <!-- Status Overview -->
+                <div class="status-overview">
+                    <div class="status-badge overall operational">
+                        <i class="fas fa-check-circle"></i>
+                        <span>All Systems Operational</span>
+                    </div>
+                    <div class="status-timestamp">Last updated: <span id="status-timestamp">Just now</span></div>
+                </div>
+
+                <!-- Service Status Grid -->
+                <div class="status-grid-detailed">
+                    <!-- API Service -->
+                    <div class="status-card-detailed">
+                        <div class="service-header">
+                            <div>
+                                <h3>API Service</h3>
+                                <span class="service-region">us-east-1</span>
+                            </div>
+                            <span class="status-badge operational">Operational</span>
+                        </div>
+                        <div class="service-metrics">
+                            <div class="metric-row">
+                                <span>Uptime:</span>
+                                <span class="value">99.99%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Requests/min:</span>
+                                <span class="value" id="status-api-requests">1,234</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Error Rate:</span>
+                                <span class="value success">0.01%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Latency P95:</span>
+                                <span class="value" id="status-api-latency">89ms</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Database -->
+                    <div class="status-card-detailed">
+                        <div class="service-header">
+                            <div>
+                                <h3>Database</h3>
+                                <span class="service-region">SQLite/PostgreSQL</span>
+                            </div>
+                            <span class="status-badge operational">Operational</span>
+                        </div>
+                        <div class="service-metrics">
+                            <div class="metric-row">
+                                <span>Connections:</span>
+                                <span class="value" id="status-db-connections">12</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Query Latency:</span>
+                                <span class="value" id="status-db-latency">23ms</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Active Queries:</span>
+                                <span class="value">3</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Disk Usage:</span>
+                                <span class="value" id="status-db-size">2.3 GB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Redis Cache -->
+                    <div class="status-card-detailed">
+                        <div class="service-header">
+                            <div>
+                                <h3>Redis Cache</h3>
+                                <span class="service-region">Cluster Mode</span>
+                            </div>
+                            <span class="status-badge operational">Operational</span>
+                        </div>
+                        <div class="service-metrics">
+                            <div class="metric-row">
+                                <span>Memory Used:</span>
+                                <span class="value" id="status-redis-memory">156 MB / 512 MB</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Hit Rate:</span>
+                                <span class="value" id="status-redis-hitrate">76.4%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Connected Clients:</span>
+                                <span class="value" id="status-redis-clients">8</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Keys:</span>
+                                <span class="value" id="status-redis-keys">1,234</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Index Shards -->
+                    <div class="status-card-detailed">
+                        <div class="service-header">
+                            <div>
+                                <h3>Index Shards</h3>
+                                <span class="service-region">3 Nodes</span>
+                            </div>
+                            <span class="status-badge operational">Operational</span>
+                        </div>
+                        <div class="shard-list">
+                            <div class="shard-item">
+                                <span>Shard A-F:</span>
+                                <span class="value">456 docs</span>
+                                <span class="shard-status healthy">Healthy</span>
+                            </div>
+                            <div class="shard-item">
+                                <span>Shard G-M:</span>
+                                <span class="value">423 docs</span>
+                                <span class="shard-status healthy">Healthy</span>
+                            </div>
+                            <div class="shard-item">
+                                <span>Shard N-Z:</span>
+                                <span class="value">371 docs</span>
+                                <span class="shard-status healthy">Healthy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Graphs -->
+                <div class="status-charts">
+                    <div class="chart-card">
+                        <h3>System Load - Last 24 Hours</h3>
+                        <canvas id="system-load-chart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Error Rate - Last 24 Hours</h3>
+                        <canvas id="error-rate-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Incidents -->
+                <div class="incidents-section">
+                    <h3>Recent Incidents</h3>
+                    <div class="incidents-timeline" id="incidents-timeline">
+                        <div class="incident resolved">
+                            <div class="incident-time">2 hours ago</div>
+                            <div class="incident-content">
+                                <h4>Redis connection timeout</h4>
+                                <p>Brief connectivity issue resolved automatically. No data loss.</p>
+                                <span class="incident-status resolved">Resolved</span>
+                            </div>
+                        </div>
+                        <div class="incident monitoring">
+                            <div class="incident-time">1 day ago</div>
+                            <div class="incident-content">
+                                <h4>High query latency</h4>
+                                <p>Increased response times during peak load. Monitoring.</p>
+                                <span class="incident-status monitoring">Monitoring</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="upload-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload Document</h2>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="upload-form">
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="doc-title" required placeholder="Enter document title">
+                    </div>
+                    <div class="form-group">
+                        <label>Content *</label>
+                        <textarea id="doc-content" required rows="6" placeholder="Enter document content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Author</label>
+                        <input type="text" id="doc-author" placeholder="Document author">
+                    </div>
+                    <div class="form-group">
+                        <label>Tags (comma separated)</label>
+                        <input type="text" id="doc-tags" placeholder="e.g., AI, technology, research">
+                    </div>
+                    <div class="form-group">
+                        <label>Or upload file</label>
+                        <input type="file" id="file-upload" accept=".txt,.md,.json">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-btn" id="cancel-upload">Cancel</button>
+                <button class="primary-btn" id="submit-upload">Upload Document</button>
             </div>
         </div>
+    </div>
 
-        <!-- System Status Page -->
-        <div id="status-page" class="page">
-            <h2>System Status</h2>
-            
-            <div class="status-grid">
-                <div class="status-card">
-                    <div class="status-header">
-                        <h3>API Service</h3>
-                        <span class="status-badge operational">Operational</span>
-                    </div>
-                    <div class="status-metrics">
-                        <div class="status-metric">
-                            <span>Uptime:</span>
-                            <span id="api-uptime">99.9%</span>
-                        </div>
-                        <div class="status-metric">
-                            <span>Requests/min:</span>
-                            <span id="api-requests">1,234</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="status-card">
-                    <div class="status-header">
-                        <h3>Database</h3>
-                        <span class="status-badge operational">Operational</span>
-                    </div>
-                    <div class="status-metrics">
-                        <div class="status-metric">
-                            <span>Connections:</span>
-                            <span id="db-connections">12</span>
-                        </div>
-                        <div class="status-metric">
-                            <span>Query latency:</span>
-                            <span id="db-latency">23ms</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="status-card">
-                    <div class="status-header">
-                        <h3>Redis Cache</h3>
-                        <span class="status-badge operational">Operational</span>
-                    </div>
-                    <div class="status-metrics">
-                        <div class="status-metric">
-                            <span>Memory used:</span>
-                            <span id="redis-memory">156MB</span>
-                        </div>
-                        <div class="status-metric">
-                            <span>Hit rate:</span>
-                            <span id="redis-hit-rate">76%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="status-card">
-                    <div class="status-header">
-                        <h3>Index Shards</h3>
-                        <span class="status-badge operational">Operational</span>
-                    </div>
-                    <div class="shard-stats" id="shard-stats"></div>
-                </div>
-            </div>
-
-            <!-- Recent Incidents -->
-            <div class="incidents-section">
-                <h3>Recent Incidents</h3>
-                <div class="incidents-list" id="incidents-list">
-                    <div class="incident-item resolved">
-                        <span class="incident-time">2h ago</span>
-                        <span class="incident-title">Redis connection timeout</span>
-                        <span class="incident-status resolved">Resolved</span>
-                    </div>
-                    <div class="incident-item monitoring">
-                        <span class="incident-time">1d ago</span>
-                        <span class="incident-title">High query latency</span>
-                        <span class="incident-status monitoring">Monitoring</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
 
     <script src="script.js"></script>
 </body>

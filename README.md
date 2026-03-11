@@ -14,3 +14,10 @@ Python, FastAPI, Docker, Distributed Systems
 
 ## Architecture
 Client → API Gateway → Cache Nodes
+
+<div align="center">
+  <img src="screenshots/Dashboard.png" width="400" alt="Dashboard">
+  <img src="screenshots/Document.png" width="400" alt="Document Section">
+  <br>
+  <em>Left: Dashboard | Right: Document Section</em>
+</div>

@@ -13,7 +13,11 @@ cache architectures used in modern cloud platforms.
 Python, FastAPI, Docker, Distributed Systems
 
 ## Architecture
-Client → API Gateway → Cache Nodes
+<div align="center">
+  <img src="screenshots/DC.drawio.png" width="400" alt="Dashboard">
+  <br>
+  <em>Architecture</em>
+</div>
 
 <div align="center">
   <img src="screenshots/Dashboard.png" width="400" alt="Dashboard">

@@ -1,19 +1,17 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-import time
 import logging
-from contextlib import asynccontextmanager
 
-from .api import search, documents, stats
 from .config import settings
+from .api import search, documents, stats
 from .utils.logger import setup_logging, get_logger
-from .database import db
 
 # Setup logging
 setup_logging()
 logger = get_logger(__name__)
+
+# Rest of your app.py code...
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

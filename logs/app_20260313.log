@@ -1,0 +1,8 @@
+2026-03-13 21:02:42,266 - backend.app - INFO - Starting Distributed Search & Cache Engine v1.0.0
+2026-03-13 21:02:42,267 - backend.app - INFO - Environment: development
+2026-03-13 21:02:42,713 - backend.app - INFO - Database initialized successfully
+2026-03-13 21:02:43,143 - backend.app - INFO - Starting Distributed Search & Cache Engine v1.0.0
+2026-03-13 21:02:43,144 - backend.app - INFO - Environment: development
+2026-03-13 21:02:43,172 - backend.app - INFO - Database initialized successfully
+2026-03-13 21:03:04,419 - backend.app - INFO - Shutting down application
+2026-03-13 21:03:05,688 - backend.app - INFO - Shutting down application

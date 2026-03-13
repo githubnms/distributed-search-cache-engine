@@ -1,7 +1,12 @@
+"""
+Configuration Module
+Handles environment variables and application settings
+"""
+
 import os
-from typing import Optional
 from pydantic_settings import BaseSettings
 from functools import lru_cache
+from typing import Optional
 
 class Settings(BaseSettings):
     """Application settings with environment variable support"""
@@ -9,30 +14,30 @@ class Settings(BaseSettings):
     # Application
     APP_NAME: str = "Distributed Search & Cache Engine"
     APP_VERSION: str = "1.0.0"
-    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
-    DEBUG: bool = ENVIRONMENT == "development"
+    ENVIRONMENT: str = "development"
+    DEBUG: bool = True
     
     # Server
-    HOST: str = os.getenv("HOST", "0.0.0.0")
-    PORT: int = int(os.getenv("PORT", "8000"))
+    HOST: str = "0.0.0.0"
+    PORT: int = 8000
     
     # Database
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./dsce.db")
-    DATABASE_POOL_SIZE: int = int(os.getenv("DATABASE_POOL_SIZE", "20"))
+    DATABASE_URL: str = "sqlite:///./data/dsce.db"
+    DATABASE_POOL_SIZE: int = 20
     
     # Redis Cache
-    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379")
-    REDIS_MAX_CONNECTIONS: int = int(os.getenv("REDIS_MAX_CONNECTIONS", "10"))
-    CACHE_TTL: int = int(os.getenv("CACHE_TTL", "300"))  # 5 minutes default
-    CACHE_POPULAR_TTL_MULTIPLIER: int = int(os.getenv("CACHE_POPULAR_TTL_MULTIPLIER", "4"))
+    REDIS_URL: str = "redis://localhost:6379"
+    REDIS_MAX_CONNECTIONS: int = 10
+    CACHE_TTL: int = 300
+    CACHE_POPULAR_TTL_MULTIPLIER: int = 4
     
     # Rate Limiting
-    RATE_LIMIT_REQUESTS: int = int(os.getenv("RATE_LIMIT_REQUESTS", "100"))
-    RATE_LIMIT_PERIOD: int = int(os.getenv("RATE_LIMIT_PERIOD", "60"))  # seconds
+    RATE_LIMIT_REQUESTS: int = 100
+    RATE_LIMIT_PERIOD: int = 60
     
     # Indexing
-    MAX_DOCUMENT_SIZE: int = int(os.getenv("MAX_DOCUMENT_SIZE", "1048576"))  # 1MB
-    BATCH_INDEX_SIZE: int = int(os.getenv("BATCH_INDEX_SIZE", "100"))
+    MAX_DOCUMENT_SIZE: int = 1048576  # 1MB
+    BATCH_INDEX_SIZE: int = 100
     
     # Sharding
     SHARD_CONFIG: dict = {
@@ -42,16 +47,16 @@ class Settings(BaseSettings):
     }
     
     # Logging
-    LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
+    LOG_LEVEL: str = "INFO"
     LOG_FORMAT: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     
     # Security
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "your-secret-key-here")
+    SECRET_KEY: str = "your-secret-key-here-change-this-in-production"
     CORS_ORIGINS: list = ["http://localhost:8000", "http://localhost:3000"]
     
     class Config:
         env_file = ".env"
-        case_sensitive = True
+        extra = "ignore"  # This allows extra fields in .env file
 
 @lru_cache()
 def get_settings():

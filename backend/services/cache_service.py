@@ -1,10 +1,15 @@
-import aioredis
-import json
+"""
+Cache Service Module
+Handles Redis caching operations
+"""
+
+import redis
 import pickle
-from typing import Optional, Any, List
-from datetime import datetime, timedelta
+import json
+from typing import Optional, Any, List, Dict
 import logging
-import asyncio
+import time
+from datetime import datetime
 
 from ..config import settings
 
@@ -14,48 +19,49 @@ class CacheService:
     """Redis-based caching service"""
     
     def __init__(self):
-        self.redis = None
+        self.redis_client = None
         self.stats = {
             'hits': 0,
             'misses': 0,
             'popular_queries': {}
         }
-        self._connection_lock = asyncio.Lock()
+        self._connect()
     
-    async def _get_connection(self):
-        """Get Redis connection with lazy initialization"""
-        if self.redis is None:
-            async with self._connection_lock:
-                if self.redis is None:
-                    try:
-                        self.redis = await aioredis.from_url(
-                            settings.REDIS_URL,
-                            max_connections=settings.REDIS_MAX_CONNECTIONS,
-                            decode_responses=False
-                        )
-                        logger.info("Connected to Redis")
-                    except Exception as e:
-                        logger.error(f"Redis connection failed: {e}")
-                        self.redis = None
-        return self.redis
+    def _connect(self):
+        """Establish connection to Redis"""
+        try:
+            self.redis_client = redis.Redis.from_url(
+                settings.REDIS_URL,
+                decode_responses=False,
+                socket_connect_timeout=2,
+                socket_timeout=2,
+                retry_on_timeout=True
+            )
+            # Test connection
+            self.redis_client.ping()
+            logger.info("✅ Connected to Redis successfully")
+        except Exception as e:
+            logger.error(f"❌ Redis connection failed: {e}")
+            self.redis_client = None
     
     async def get_cached_results(self, query: str) -> Optional[List]:
         """Get cached search results"""
         try:
-            redis = await self._get_connection()
-            if not redis:
+            if not self.redis_client:
                 return None
             
             # Try to get from cache
-            cached = await redis.get(f"search:{query}")
+            cached = self.redis_client.get(f"search:{query}")
             
             if cached:
                 self.stats['hits'] += 1
                 # Update popularity
-                await self._update_popularity(query)
+                self._update_popularity(query)
+                logger.debug(f"Cache hit for query: {query}")
                 return pickle.loads(cached)
             else:
                 self.stats['misses'] += 1
+                logger.debug(f"Cache miss for query: {query}")
                 return None
                 
         except Exception as e:
@@ -63,18 +69,17 @@ class CacheService:
             self.stats['misses'] += 1
             return None
     
-    async def cache_results(self, query: str, results: List, popularity: int = 0):
-        """Cache search results with adaptive TTL"""
+    async def cache_results(self, query: str, results: List, ttl: int = None):
+        """Cache search results"""
         try:
-            redis = await self._get_connection()
-            if not redis:
+            if not self.redis_client:
                 return
             
-            # Calculate adaptive TTL based on popularity
-            ttl = self._calculate_adaptive_ttl(query, popularity)
+            if ttl is None:
+                ttl = settings.CACHE_TTL
             
             # Cache the results
-            await redis.setex(
+            self.redis_client.setex(
                 f"search:{query}",
                 ttl,
                 pickle.dumps(results)
@@ -85,44 +90,27 @@ class CacheService:
         except Exception as e:
             logger.error(f"Cache set error: {e}")
     
-    def _calculate_adaptive_ttl(self, query: str, popularity: int) -> int:
-        """Calculate adaptive TTL based on query popularity"""
-        base_ttl = settings.CACHE_TTL
-        
-        # Check if query is popular
-        popular_threshold = 10
-        if popularity > 100:
-            return base_ttl * 4
-        elif popularity > 50:
-            return base_ttl * 2
-        elif popularity > popular_threshold:
-            return base_ttl
-        
-        return base_ttl
-    
-    async def _update_popularity(self, query: str):
+    def _update_popularity(self, query: str):
         """Update query popularity counter"""
         try:
-            redis = await self._get_connection()
-            if not redis:
+            if not self.redis_client:
                 return
             
-            # Increment popularity counter
-            await redis.zincrby("popular_queries", 1, query)
-            await redis.expire("popular_queries", 86400)  # 24 hours
+            # Increment popularity counter in a sorted set
+            self.redis_client.zincrby("popular_queries", 1, query)
+            self.redis_client.expire("popular_queries", 86400)  # 24 hours
             
         except Exception as e:
             logger.error(f"Popularity update error: {e}")
     
-    async def get_popular_queries(self, limit: int = 10) -> List:
+    async def get_popular_queries(self, limit: int = 10) -> List[Dict]:
         """Get most popular queries"""
         try:
-            redis = await self._get_connection()
-            if not redis:
+            if not self.redis_client:
                 return []
             
             # Get top queries from sorted set
-            popular = await redis.zrevrange(
+            popular = self.redis_client.zrevrange(
                 "popular_queries",
                 0,
                 limit - 1,
@@ -138,16 +126,15 @@ class CacheService:
             logger.error(f"Error getting popular queries: {e}")
             return []
     
-    async def clear_cache(self, pattern: str = "*"):
+    async def clear_cache(self, pattern: str = "*") -> int:
         """Clear cache entries matching pattern"""
         try:
-            redis = await self._get_connection()
-            if not redis:
+            if not self.redis_client:
                 return 0
             
-            keys = await redis.keys(f"search:{pattern}")
+            keys = self.redis_client.keys(f"search:{pattern}")
             if keys:
-                deleted = await redis.delete(*keys)
+                deleted = self.redis_client.delete(*keys)
                 logger.info(f"Cleared {deleted} cache entries")
                 return deleted
             return 0
@@ -156,7 +143,7 @@ class CacheService:
             logger.error(f"Cache clear error: {e}")
             return 0
     
-    async def get_cache_statistics(self) -> dict:
+    async def get_cache_statistics(self) -> Dict:
         """Get cache statistics"""
         total = self.stats['hits'] + self.stats['misses']
         hit_rate = self.stats['hits'] / total if total > 0 else 0
@@ -168,22 +155,21 @@ class CacheService:
             'total_requests': total
         }
     
-    async def get_detailed_stats(self) -> dict:
+    async def get_detailed_stats(self) -> Dict:
         """Get detailed cache statistics"""
         try:
-            redis = await self._get_connection()
-            if not redis:
+            if not self.redis_client:
                 return self.stats
             
             # Get Redis info
-            info = await redis.info()
+            info = self.redis_client.info()
             
             stats = await self.get_cache_statistics()
             stats.update({
                 'redis_version': info.get('redis_version'),
                 'used_memory_human': info.get('used_memory_human'),
                 'connected_clients': info.get('connected_clients'),
-                'total_keys': await redis.dbsize()
+                'total_keys': len(self.redis_client.keys('*'))
             })
             
             return stats
@@ -192,14 +178,21 @@ class CacheService:
             logger.error(f"Error getting detailed stats: {e}")
             return self.stats
     
-    async def check_health(self) -> bool:
+    async def record_hit(self):
+        """Record a cache hit"""
+        self.stats['hits'] += 1
+    
+    async def record_miss(self):
+        """Record a cache miss"""
+        self.stats['misses'] += 1
+    
+    async def health_check(self) -> bool:
         """Check Redis health"""
         try:
-            redis = await self._get_connection()
-            if not redis:
+            if not self.redis_client:
                 return False
             
-            await redis.ping()
+            self.redis_client.ping()
             return True
             
         except Exception as e:

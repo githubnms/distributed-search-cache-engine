@@ -19,6 +19,9 @@ Python, FastAPI, Docker, Distributed Systems
   <em>Architecture</em>
 </div>
 
+<br>
+
+## Screenshots
 <div align="center">
   <img src="screenshots/Dashboard.png" width="400" alt="Dashboard">
   <img src="screenshots/Document.png" width="400" alt="Document Section">

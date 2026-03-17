@@ -30,6 +30,9 @@ def setup_logging():
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.INFO)
     
+    # Remove existing handlers to avoid duplicates
+    root_logger.handlers.clear()
+    
     # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setFormatter(logging.Formatter(

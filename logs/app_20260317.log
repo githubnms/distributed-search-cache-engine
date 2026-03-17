@@ -1,0 +1,23 @@
+2026-03-17 12:20:08,391 - backend.services.cache_service - INFO - Connected to Redis successfully
+2026-03-17 12:21:37,568 - backend.services.cache_service - INFO - Connected to Redis successfully
+2026-03-17 12:21:37,583 - backend.app - INFO - ============================================================
+2026-03-17 12:21:37,583 - backend.app - INFO - Starting Distributed Search & Cache Engine v1.0.0
+2026-03-17 12:21:37,583 - backend.app - INFO - Environment: development
+2026-03-17 12:21:37,584 - backend.app - INFO - ============================================================
+2026-03-17 12:21:37,585 - backend.app - INFO - Redis cache is connected
+2026-03-17 12:21:37,586 - backend.app - INFO - Database connected at: C:\Users\New\OneDrive\Desktop\distributed cache\data\dsce.db
+2026-03-17 12:22:59,689 - backend.app - INFO - Shutting down application...
+2026-03-17 12:22:59,729 - backend.app - INFO - Database connections closed
+2026-03-17 12:22:59,730 - backend.app - INFO - Redis connection closed
+2026-03-17 12:22:59,731 - backend.app - INFO - Application shutdown complete
+2026-03-17 12:23:01,626 - backend.services.cache_service - INFO - Connected to Redis successfully
+2026-03-17 12:23:01,641 - backend.app - INFO - ============================================================
+2026-03-17 12:23:01,641 - backend.app - INFO - Starting Distributed Search & Cache Engine v1.0.0
+2026-03-17 12:23:01,642 - backend.app - INFO - Environment: development
+2026-03-17 12:23:01,642 - backend.app - INFO - ============================================================
+2026-03-17 12:23:01,643 - backend.app - INFO - Redis cache is connected
+2026-03-17 12:23:01,644 - backend.app - INFO - Database connected at: C:\Users\New\OneDrive\Desktop\distributed cache\data\dsce.db
+2026-03-17 12:23:04,987 - backend.app - INFO - Shutting down application...
+2026-03-17 12:23:05,016 - backend.app - INFO - Database connections closed
+2026-03-17 12:23:05,016 - backend.app - INFO - Redis connection closed
+2026-03-17 12:23:05,016 - backend.app - INFO - Application shutdown complete

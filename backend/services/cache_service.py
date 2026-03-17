@@ -35,13 +35,14 @@ class CacheService:
                 decode_responses=False,
                 socket_connect_timeout=2,
                 socket_timeout=2,
-                retry_on_timeout=True
+                retry_on_timeout=True,
+                health_check_interval=30
             )
             # Test connection
             self.redis_client.ping()
-            logger.info("✅ Connected to Redis successfully")
+            logger.info("Connected to Redis successfully")
         except Exception as e:
-            logger.error(f"❌ Redis connection failed: {e}")
+            logger.warning(f"Redis not available - running without cache: {e}")
             self.redis_client = None
     
     async def get_cached_results(self, query: str) -> Optional[List]:

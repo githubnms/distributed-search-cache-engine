@@ -1,60 +1,62 @@
-from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
-from typing import List, Optional
+"""
+Documents API Routes
+Handles document management operations
+"""
+
+from fastapi import APIRouter, HTTPException, UploadFile, File, Query
 import logging
+from typing import List, Optional
 import asyncio
 
-from ..schemas import DocumentCreate, DocumentResponse, BatchDocumentCreate
 from ..services.indexing_service import IndexingService
 from ..services.worker_service import WorkerService
-from ..utils.logger import get_logger
 
-router = APIRouter(prefix="/api/v1/documents", tags=["documents"])
-logger = get_logger(__name__)
+router = APIRouter(tags=["documents"])
+logger = logging.getLogger(__name__)
 
+# Initialize services
 indexing_service = IndexingService()
 worker_service = WorkerService()
 
-@router.post("/", response_model=DocumentResponse)
-async def create_document(doc: DocumentCreate):
+@router.post("/documents/")
+async def create_document(doc: dict):
     """
-    Create a new document and index it
+    Create a new document
     """
     try:
-        # Create document
-        document = await indexing_service.create_document(doc.dict())
+        document = await indexing_service.create_document(doc)
+        logger.info(f"Document created: {document.id}")
         
         # Index asynchronously
         asyncio.create_task(indexing_service.index_document(document))
         
-        logger.info(f"Document created: {document.id}")
-        return DocumentResponse.from_orm(document)
-        
+        return document.to_dict()
     except Exception as e:
-        logger.error(f"Error creating document: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error creating document")
+        logger.error(f"Error creating document: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/batch", response_model=List[DocumentResponse])
-async def create_documents_batch(batch: BatchDocumentCreate):
+@router.post("/documents/batch")
+async def create_documents_batch(documents: List[dict]):
     """
     Create multiple documents in batch
     """
     try:
-        documents = []
-        for doc_data in batch.documents:
-            doc = await indexing_service.create_document(doc_data.dict())
-            documents.append(doc)
+        results = []
+        for doc in documents:
+            document = await indexing_service.create_document(doc)
+            results.append(document.to_dict())
         
-        # Index all documents
-        asyncio.create_task(indexing_service.index_documents_batch(documents))
+        # Index all documents asynchronously
+        asyncio.create_task(indexing_service.index_documents_batch(
+            [await indexing_service.get_document(r["id"]) for r in results]
+        ))
         
-        logger.info(f"Batch created: {len(documents)} documents")
-        return [DocumentResponse.from_orm(doc) for doc in documents]
-        
+        return results
     except Exception as e:
-        logger.error(f"Error in batch creation: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error in batch creation")
+        logger.error(f"Error in batch creation: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/upload")
+@router.post("/documents/upload")
 async def upload_file(file: UploadFile = File(...)):
     """
     Upload and index a file
@@ -73,10 +75,9 @@ async def upload_file(file: UploadFile = File(...)):
         
         document = await indexing_service.create_document(doc_data)
         
-        # Index document
+        # Index document asynchronously
         asyncio.create_task(indexing_service.index_document(document))
         
-        logger.info(f"File uploaded and indexed: {file.filename}")
         return {
             "message": "File uploaded successfully",
             "document_id": document.id,
@@ -84,10 +85,10 @@ async def upload_file(file: UploadFile = File(...)):
         }
         
     except Exception as e:
-        logger.error(f"Error uploading file: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error uploading file")
+        logger.error(f"Error uploading file: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/{document_id}", response_model=DocumentResponse)
+@router.get("/documents/{document_id}")
 async def get_document(document_id: str):
     """
     Get document by ID
@@ -96,15 +97,14 @@ async def get_document(document_id: str):
         document = await indexing_service.get_document(document_id)
         if not document:
             raise HTTPException(status_code=404, detail="Document not found")
-        return DocumentResponse.from_orm(document)
-        
+        return document.to_dict()
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error getting document: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error retrieving document")
+        logger.error(f"Error getting document: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-@router.delete("/{document_id}")
+@router.delete("/documents/{document_id}")
 async def delete_document(document_id: str):
     """
     Delete document by ID
@@ -113,27 +113,24 @@ async def delete_document(document_id: str):
         success = await indexing_service.delete_document(document_id)
         if not success:
             raise HTTPException(status_code=404, detail="Document not found")
-        
-        # Remove from cache
-        asyncio.create_task(indexing_service.remove_from_cache(document_id))
-        
         return {"message": "Document deleted successfully"}
-        
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error deleting document: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error deleting document")
+        logger.error(f"Error deleting document: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/", response_model=List[DocumentResponse])
-async def list_documents(skip: int = 0, limit: int = 10):
+@router.get("/documents/")
+async def list_documents(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(10, ge=1, le=100)
+):
     """
     List all documents with pagination
     """
     try:
         documents = await indexing_service.list_documents(skip, limit)
-        return [DocumentResponse.from_orm(doc) for doc in documents]
-        
+        return [doc.to_dict() for doc in documents]
     except Exception as e:
-        logger.error(f"Error listing documents: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error listing documents")
+        logger.error(f"Error listing documents: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

@@ -21,3 +21,587 @@
 2026-03-17 12:23:05,016 - backend.app - INFO - Database connections closed
 2026-03-17 12:23:05,016 - backend.app - INFO - Redis connection closed
 2026-03-17 12:23:05,016 - backend.app - INFO - Application shutdown complete
+2026-03-17 12:24:19,082 - backend.services.cache_service - INFO - Connected to Redis successfully
+2026-03-17 12:24:19,099 - backend.app - INFO - ============================================================
+2026-03-17 12:24:19,099 - backend.app - INFO - Starting Distributed Search & Cache Engine v1.0.0
+2026-03-17 12:24:19,100 - backend.app - INFO - Environment: development
+2026-03-17 12:24:19,100 - backend.app - INFO - ============================================================
+2026-03-17 12:24:19,102 - backend.app - INFO - Redis cache is connected
+2026-03-17 12:24:19,102 - backend.app - INFO - Database connected at: C:\Users\New\OneDrive\Desktop\distributed cache\data\dsce.db
+2026-03-17 12:30:54,075 - backend.app - INFO - Shutting down application...
+2026-03-17 12:30:54,090 - backend.app - INFO - Database connections closed
+2026-03-17 12:30:54,091 - backend.app - INFO - Redis connection closed
+2026-03-17 12:30:54,091 - backend.app - INFO - Application shutdown complete
+2026-03-17 12:30:58,812 - backend.services.cache_service - INFO - Connected to Redis successfully
+2026-03-17 12:30:58,824 - backend.app - INFO - ============================================================
+2026-03-17 12:30:58,825 - backend.app - INFO - Starting Distributed Search & Cache Engine v1.0.0
+2026-03-17 12:30:58,825 - backend.app - INFO - Environment: development
+2026-03-17 12:30:58,825 - backend.app - INFO - ============================================================
+2026-03-17 12:30:58,827 - backend.app - INFO - Redis cache is connected
+2026-03-17 12:30:58,827 - backend.app - INFO - Database connected at: C:\Users\New\OneDrive\Desktop\distributed cache\data\dsce.db
+2026-03-17 12:33:46,569 - backend.app - INFO - Shutting down application...
+2026-03-17 12:33:46,590 - backend.app - INFO - Database connections closed
+2026-03-17 12:33:46,590 - backend.app - INFO - Redis connection closed
+2026-03-17 12:33:46,590 - backend.app - INFO - Application shutdown complete
+2026-03-17 12:39:15,023 - backend.services.cache_service - INFO - Connected to Redis successfully
+2026-03-17 12:39:15,040 - backend.app - INFO - Frontend static files mounted from 'frontend' directory
+2026-03-17 12:39:15,041 - backend.app - INFO - ============================================================
+2026-03-17 12:39:15,041 - backend.app - INFO - Starting Distributed Search & Cache Engine v1.0.0
+2026-03-17 12:39:15,041 - backend.app - INFO - Environment: development
+2026-03-17 12:39:15,042 - backend.app - INFO - ============================================================
+2026-03-17 12:39:15,043 - backend.app - INFO - Redis cache is connected
+2026-03-17 12:39:15,043 - backend.app - INFO - Database connected at: C:\Users\New\OneDrive\Desktop\distributed cache\data\dsce.db
+2026-03-17 12:39:44,094 - backend.app - INFO - Request [1773731384.0943575-1685378973776] - GET /health
+2026-03-17 12:39:44,099 - backend.app - INFO - Response [1773731384.0943575-1685378973776] - Status: 200 - Duration: 4.84ms
+2026-03-17 12:39:53,185 - backend.app - INFO - Request [1773731393.1853538-1685378933904] - GET /api/v1/stats/
+2026-03-17 12:39:53,194 - backend.app - INFO - Response [1773731393.1853538-1685378933904] - Status: 200 - Duration: 9.51ms
+2026-03-17 12:40:07,400 - backend.app - INFO - Request [1773731407.4000854-1685378936784] - GET /debug/routes
+2026-03-17 12:40:07,401 - backend.app - INFO - Response [1773731407.4000854-1685378936784] - Status: 200 - Duration: 1.32ms
+2026-03-17 12:41:20,506 - backend.app - INFO - Shutting down application...
+2026-03-17 12:41:20,521 - backend.app - INFO - Database connections closed
+2026-03-17 12:41:20,521 - backend.app - INFO - Redis connection closed
+2026-03-17 12:41:20,522 - backend.app - INFO - Application shutdown complete
+2026-03-17 12:57:43,299 - backend.services.cache_service - INFO - Connected to Redis successfully
+2026-03-17 12:57:43,321 - backend.app - INFO - Frontend static files mounted from 'frontend' directory
+2026-03-17 12:57:43,322 - backend.app - INFO - ============================================================
+2026-03-17 12:57:43,323 - backend.app - INFO - Starting Distributed Search & Cache Engine v1.0.0
+2026-03-17 12:57:43,323 - backend.app - INFO - Environment: development
+2026-03-17 12:57:43,323 - backend.app - INFO - ============================================================
+2026-03-17 12:57:43,325 - backend.app - INFO - Redis cache is connected
+2026-03-17 12:57:43,325 - backend.app - INFO - Database connected at: C:\Users\New\OneDrive\Desktop\distributed cache\data\dsce.db
+2026-03-17 12:57:47,958 - backend.app - INFO - Request [1773732467.9583948-2583210246224] - GET /health
+2026-03-17 12:57:47,962 - backend.app - INFO - Request [1773732467.9620867-2583210226576] - OPTIONS /api/v1/stats/
+2026-03-17 12:57:47,962 - backend.app - INFO - Response [1773732467.9583948-2583210246224] - Status: 200 - Duration: 4.33ms
+2026-03-17 12:57:47,963 - backend.app - INFO - Response [1773732467.9620867-2583210226576] - Status: 200 - Duration: 1.58ms
+2026-03-17 12:57:47,967 - backend.app - INFO - Request [1773732467.9674792-2583210228176] - GET /api/v1/stats/
+2026-03-17 12:57:47,972 - backend.app - INFO - Response [1773732467.9674792-2583210228176] - Status: 200 - Duration: 4.90ms
+2026-03-17 12:57:47,977 - backend.app - INFO - Request [1773732467.9774554-2583209833312] - GET /api/v1/stats/
+2026-03-17 12:57:47,978 - backend.app - INFO - Response [1773732467.9774554-2583209833312] - Status: 200 - Duration: 1.40ms
+2026-03-17 12:58:02,013 - backend.app - INFO - Request [1773732482.0131745-2583209835744] - OPTIONS /api/v1/search/suggest
+2026-03-17 12:58:02,014 - backend.app - INFO - Response [1773732482.0131745-2583209835744] - Status: 200 - Duration: 0.87ms
+2026-03-17 12:58:02,016 - backend.app - INFO - Request [1773732482.0159664-2583209932944] - GET /api/v1/search/suggest
+2026-03-17 12:58:02,020 - backend.app - INFO - Response [1773732482.0159664-2583209932944] - Status: 200 - Duration: 4.52ms
+2026-03-17 12:58:03,413 - backend.app - INFO - Request [1773732483.4132833-2583209944448] - OPTIONS /api/v1/search/
+2026-03-17 12:58:03,414 - backend.app - INFO - Response [1773732483.4132833-2583209944448] - Status: 200 - Duration: 1.13ms
+2026-03-17 12:58:03,416 - backend.app - INFO - Request [1773732483.416623-2583209949072] - GET /api/v1/search/
+2026-03-17 12:58:03,432 - backend.api.search - INFO - Cache miss for query: AI
+2026-03-17 12:58:03,433 - backend.services.search_service - INFO - Cache miss for query: 'AI'
+2026-03-17 12:58:03,437 - backend.services.search_service - ERROR - Execute search error: 
+**********************************************************************
+  Resource 'punkt_tab' not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  >>> import nltk
+  >>> nltk.download('punkt_tab')
+
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load 'tokenizers/punkt_tab/english/'
+
+  Searched in:
+    - 'C:\\Users\\New/nltk_data'
+    - 'c:\\Users\\New\\OneDrive\\Desktop\\distributed cache\\.venv\\nltk_data'
+    - 'c:\\Users\\New\\OneDrive\\Desktop\\distributed cache\\.venv\\share\\nltk_data'
+    - 'c:\\Users\\New\\OneDrive\\Desktop\\distributed cache\\.venv\\lib\\nltk_data'
+    - 'C:\\Users\\New\\AppData\\Roaming\\nltk_data'
+    - 'C:\\nltk_data'
+    - 'D:\\nltk_data'
+    - 'E:\\nltk_data'
+**********************************************************************
+
+2026-03-17 12:58:03,438 - backend.services.search_service - INFO - Search completed: 'AI' - 0 results in 0.005s
+2026-03-17 12:58:03,451 - backend.app - INFO - Response [1773732483.416623-2583209949072] - Status: 200 - Duration: 34.90ms
+2026-03-17 12:58:03,636 - backend.app - INFO - Request [1773732483.636773-2583209989456] - GET /health
+2026-03-17 12:58:03,639 - backend.app - INFO - Response [1773732483.636773-2583209989456] - Status: 200 - Duration: 2.28ms
+2026-03-17 12:58:03,641 - backend.app - INFO - Request [1773732483.6416445-2583209997904] - GET /api/v1/stats/
+2026-03-17 12:58:03,645 - backend.app - INFO - Response [1773732483.6416445-2583209997904] - Status: 200 - Duration: 3.97ms
+2026-03-17 12:58:03,652 - backend.app - INFO - Request [1773732483.6527848-2583210010064] - GET /api/v1/stats/
+2026-03-17 12:58:03,656 - backend.app - INFO - Response [1773732483.6527848-2583210010064] - Status: 200 - Duration: 3.41ms
+2026-03-17 12:58:11,771 - backend.app - INFO - Request [1773732491.7717738-2583210015584] - OPTIONS /api/v1/search/suggest
+2026-03-17 12:58:11,772 - backend.app - INFO - Response [1773732491.7717738-2583210015584] - Status: 200 - Duration: 0.70ms
+2026-03-17 12:58:11,774 - backend.app - INFO - Request [1773732491.7746077-2583210126800] - GET /api/v1/search/suggest
+2026-03-17 12:58:11,776 - backend.app - INFO - Response [1773732491.7746077-2583210126800] - Status: 200 - Duration: 1.84ms
+2026-03-17 12:58:12,987 - backend.app - INFO - Request [1773732492.9878953-2583210418352] - OPTIONS /api/v1/search/suggest
+2026-03-17 12:58:12,988 - backend.app - INFO - Response [1773732492.9878953-2583210418352] - Status: 200 - Duration: 0.52ms
+2026-03-17 12:58:12,989 - backend.app - INFO - Request [1773732492.9899337-2583209961504] - GET /api/v1/search/suggest
+2026-03-17 12:58:12,995 - backend.app - INFO - Response [1773732492.9899337-2583209961504] - Status: 200 - Duration: 5.65ms
+2026-03-17 12:58:14,206 - backend.app - INFO - Request [1773732494.2059534-2583205324624] - OPTIONS /api/v1/search/suggest
+2026-03-17 12:58:14,206 - backend.app - INFO - Response [1773732494.2059534-2583205324624] - Status: 200 - Duration: 0.61ms
+2026-03-17 12:58:14,208 - backend.app - INFO - Request [1773732494.2083123-2583205325968] - GET /api/v1/search/suggest
+2026-03-17 12:58:14,210 - backend.app - INFO - Response [1773732494.2083123-2583205325968] - Status: 200 - Duration: 1.98ms
+2026-03-17 12:58:15,720 - backend.app - INFO - Request [1773732495.7205765-2583209581872] - OPTIONS /api/v1/search/suggest
+2026-03-17 12:58:15,721 - backend.app - INFO - Response [1773732495.7205765-2583209581872] - Status: 200 - Duration: 0.64ms
+2026-03-17 12:58:15,723 - backend.app - INFO - Request [1773732495.7232358-2583209580112] - GET /api/v1/search/suggest
+2026-03-17 12:58:15,725 - backend.app - INFO - Response [1773732495.7232358-2583209580112] - Status: 200 - Duration: 2.13ms
+2026-03-17 12:58:17,012 - backend.app - INFO - Request [1773732497.012369-2583210886640] - OPTIONS /api/v1/search/
+2026-03-17 12:58:17,013 - backend.app - INFO - Response [1773732497.012369-2583210886640] - Status: 200 - Duration: 0.62ms
+2026-03-17 12:58:17,015 - backend.app - INFO - Request [1773732497.0151138-2583210885680] - GET /api/v1/search/
+2026-03-17 12:58:17,016 - backend.api.search - INFO - Cache miss for query: Machine learning
+2026-03-17 12:58:17,018 - backend.services.search_service - INFO - Cache miss for query: 'Machine learning'
+2026-03-17 12:58:17,020 - backend.services.search_service - ERROR - Execute search error: 
+**********************************************************************
+  Resource 'punkt_tab' not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  >>> import nltk
+  >>> nltk.download('punkt_tab')
+
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load 'tokenizers/punkt_tab/english/'
+
+  Searched in:
+    - 'C:\\Users\\New/nltk_data'
+    - 'c:\\Users\\New\\OneDrive\\Desktop\\distributed cache\\.venv\\nltk_data'
+    - 'c:\\Users\\New\\OneDrive\\Desktop\\distributed cache\\.venv\\share\\nltk_data'
+    - 'c:\\Users\\New\\OneDrive\\Desktop\\distributed cache\\.venv\\lib\\nltk_data'
+    - 'C:\\Users\\New\\AppData\\Roaming\\nltk_data'
+    - 'C:\\nltk_data'
+    - 'D:\\nltk_data'
+    - 'E:\\nltk_data'
+**********************************************************************
+
+2026-03-17 12:58:17,021 - backend.services.search_service - INFO - Search completed: 'Machine learning' - 0 results in 0.004s
+2026-03-17 12:58:17,034 - backend.app - INFO - Response [1773732497.0151138-2583210885680] - Status: 200 - Duration: 19.58ms
+2026-03-17 12:58:17,199 - backend.app - INFO - Request [1773732497.1993136-2583210898320] - GET /health
+2026-03-17 12:58:17,201 - backend.app - INFO - Response [1773732497.1993136-2583210898320] - Status: 200 - Duration: 2.35ms
+2026-03-17 12:58:17,204 - backend.app - INFO - Request [1773732497.2045057-2583210898800] - GET /api/v1/stats/
+2026-03-17 12:58:17,207 - backend.app - INFO - Response [1773732497.2045057-2583210898800] - Status: 200 - Duration: 3.16ms
+2026-03-17 12:58:17,219 - backend.app - INFO - Request [1773732497.2191708-2583210901360] - GET /api/v1/stats/
+2026-03-17 12:58:17,222 - backend.app - INFO - Response [1773732497.2191708-2583210901360] - Status: 200 - Duration: 2.80ms
+2026-03-17 12:58:21,519 - backend.app - INFO - Request [1773732501.5197687-2583211131600] - GET /health
+2026-03-17 12:58:21,522 - backend.app - INFO - Request [1773732501.5225775-2583211134000] - GET /api/v1/stats/
+2026-03-17 12:58:21,526 - backend.app - INFO - Response [1773732501.5197687-2583211131600] - Status: 200 - Duration: 6.23ms
+2026-03-17 12:58:21,529 - backend.app - INFO - Response [1773732501.5225775-2583211134000] - Status: 200 - Duration: 6.85ms
+2026-03-17 12:58:21,540 - backend.app - INFO - Request [1773732501.5402565-2583211134960] - GET /api/v1/stats/
+2026-03-17 12:58:21,542 - backend.app - INFO - Response [1773732501.5402565-2583211134960] - Status: 200 - Duration: 2.21ms
+2026-03-17 12:58:21,871 - backend.app - INFO - Request [1773732501.8719478-2583211136560] - GET /health
+2026-03-17 12:58:21,874 - backend.app - INFO - Response [1773732501.8719478-2583211136560] - Status: 200 - Duration: 2.86ms
+2026-03-17 12:58:21,876 - backend.app - INFO - Request [1773732501.8761363-2583211131120] - GET /api/v1/stats/
+2026-03-17 12:58:21,879 - backend.app - INFO - Response [1773732501.8761363-2583211131120] - Status: 200 - Duration: 3.34ms
+2026-03-17 12:58:21,893 - backend.app - INFO - Request [1773732501.8935766-2583211134160] - GET /api/v1/stats/
+2026-03-17 12:58:21,900 - backend.app - INFO - Response [1773732501.8935766-2583211134160] - Status: 200 - Duration: 6.57ms
+2026-03-17 12:58:22,279 - backend.app - INFO - Request [1773732502.27929-2583211131760] - GET /health
+2026-03-17 12:58:22,281 - backend.app - INFO - Response [1773732502.27929-2583211131760] - Status: 200 - Duration: 2.64ms
+2026-03-17 12:58:22,283 - backend.app - INFO - Request [1773732502.2830143-2583211135440] - GET /api/v1/stats/
+2026-03-17 12:58:22,286 - backend.app - INFO - Response [1773732502.2830143-2583211135440] - Status: 200 - Duration: 3.14ms
+2026-03-17 12:58:22,298 - backend.app - INFO - Request [1773732502.297977-2583211136080] - GET /api/v1/stats/
+2026-03-17 12:58:22,299 - backend.app - INFO - Response [1773732502.297977-2583211136080] - Status: 200 - Duration: 1.84ms
+2026-03-17 12:58:22,692 - backend.app - INFO - Request [1773732502.6927688-2583211134640] - GET /health
+2026-03-17 12:58:22,696 - backend.app - INFO - Request [1773732502.6964345-2583211137200] - GET /api/v1/stats/
+2026-03-17 12:58:22,698 - backend.app - INFO - Response [1773732502.6927688-2583211134640] - Status: 200 - Duration: 6.09ms
+2026-03-17 12:58:22,700 - backend.app - INFO - Response [1773732502.6964345-2583211137200] - Status: 200 - Duration: 3.83ms
+2026-03-17 12:58:22,713 - backend.app - INFO - Request [1773732502.7135944-2583211139280] - GET /api/v1/stats/
+2026-03-17 12:58:22,715 - backend.app - INFO - Response [1773732502.7135944-2583211139280] - Status: 200 - Duration: 2.03ms
+2026-03-17 12:58:23,104 - backend.app - INFO - Request [1773732503.1048765-2583211136240] - GET /health
+2026-03-17 12:58:23,107 - backend.app - INFO - Request [1773732503.1075883-2583211135920] - GET /api/v1/stats/
+2026-03-17 12:58:23,110 - backend.app - INFO - Response [1773732503.1048765-2583211136240] - Status: 200 - Duration: 5.75ms
+2026-03-17 12:58:23,112 - backend.app - INFO - Response [1773732503.1075883-2583211135920] - Status: 200 - Duration: 5.03ms
+2026-03-17 12:58:23,124 - backend.app - INFO - Request [1773732503.1244025-2583211133840] - GET /api/v1/stats/
+2026-03-17 12:58:23,130 - backend.app - INFO - Response [1773732503.1244025-2583211133840] - Status: 200 - Duration: 6.00ms
+2026-03-17 12:58:23,516 - backend.app - INFO - Request [1773732503.5160816-2583211141840] - GET /health
+2026-03-17 12:58:23,519 - backend.app - INFO - Request [1773732503.5192094-2583211130960] - GET /api/v1/stats/
+2026-03-17 12:58:23,519 - backend.app - INFO - Response [1773732503.5160816-2583211141840] - Status: 200 - Duration: 3.67ms
+2026-03-17 12:58:23,524 - backend.app - INFO - Response [1773732503.5192094-2583211130960] - Status: 200 - Duration: 4.98ms
+2026-03-17 12:58:23,540 - backend.app - INFO - Request [1773732503.5407796-2583211140400] - GET /api/v1/stats/
+2026-03-17 12:58:23,544 - backend.app - INFO - Response [1773732503.5407796-2583211140400] - Status: 200 - Duration: 3.45ms
+2026-03-17 12:58:23,977 - backend.app - INFO - Request [1773732503.9776564-2583211142480] - GET /health
+2026-03-17 12:58:24,001 - backend.app - INFO - Request [1773732504.0013847-2583211132240] - GET /api/v1/stats/
+2026-03-17 12:58:24,006 - backend.app - INFO - Response [1773732503.9776564-2583211142480] - Status: 200 - Duration: 28.70ms
+2026-03-17 12:58:24,029 - backend.app - INFO - Response [1773732504.0013847-2583211132240] - Status: 200 - Duration: 28.33ms
+2026-03-17 12:58:24,045 - backend.app - INFO - Request [1773732504.0451963-2583211136400] - GET /api/v1/stats/
+2026-03-17 12:58:24,052 - backend.app - INFO - Response [1773732504.0451963-2583211136400] - Status: 200 - Duration: 7.26ms
+2026-03-17 12:58:24,338 - backend.app - INFO - Request [1773732504.3385742-2583211144080] - GET /health
+2026-03-17 12:58:24,341 - backend.app - INFO - Request [1773732504.3416262-2583211142960] - GET /api/v1/stats/
+2026-03-17 12:58:24,346 - backend.app - INFO - Response [1773732504.3385742-2583211144080] - Status: 200 - Duration: 7.98ms
+2026-03-17 12:58:24,359 - backend.app - INFO - Response [1773732504.3416262-2583211142960] - Status: 200 - Duration: 17.98ms
+2026-03-17 12:58:24,389 - backend.app - INFO - Request [1773732504.3891113-2583211137680] - GET /api/v1/stats/
+2026-03-17 12:58:24,399 - backend.app - INFO - Response [1773732504.3891113-2583211137680] - Status: 200 - Duration: 10.77ms
+2026-03-17 12:58:24,712 - backend.app - INFO - Request [1773732504.7120655-2583211140560] - GET /health
+2026-03-17 12:58:24,714 - backend.app - INFO - Request [1773732504.7149422-2583211143920] - GET /api/v1/stats/
+2026-03-17 12:58:24,717 - backend.app - INFO - Response [1773732504.7120655-2583211140560] - Status: 200 - Duration: 5.25ms
+2026-03-17 12:58:24,718 - backend.app - INFO - Response [1773732504.7149422-2583211143920] - Status: 200 - Duration: 3.92ms
+2026-03-17 12:58:24,732 - backend.app - INFO - Request [1773732504.7325387-2583211140080] - GET /api/v1/stats/
+2026-03-17 12:58:24,737 - backend.app - INFO - Response [1773732504.7325387-2583211140080] - Status: 200 - Duration: 5.23ms
+2026-03-17 12:58:25,114 - backend.app - INFO - Request [1773732505.1149042-2583211142640] - GET /health
+2026-03-17 12:58:25,117 - backend.app - INFO - Request [1773732505.1177073-2583211145840] - GET /api/v1/stats/
+2026-03-17 12:58:25,120 - backend.app - INFO - Response [1773732505.1149042-2583211142640] - Status: 200 - Duration: 5.69ms
+2026-03-17 12:58:25,122 - backend.app - INFO - Response [1773732505.1177073-2583211145840] - Status: 200 - Duration: 4.50ms
+2026-03-17 12:58:25,134 - backend.app - INFO - Request [1773732505.1339576-2583211134800] - GET /api/v1/stats/
+2026-03-17 12:58:25,138 - backend.app - INFO - Response [1773732505.1339576-2583211134800] - Status: 200 - Duration: 4.77ms
+2026-03-17 12:58:25,499 - backend.app - INFO - Request [1773732505.4991887-2583211144880] - GET /health
+2026-03-17 12:58:25,502 - backend.app - INFO - Request [1773732505.5019982-2583211362096] - GET /api/v1/stats/
+2026-03-17 12:58:25,504 - backend.app - INFO - Response [1773732505.4991887-2583211144880] - Status: 200 - Duration: 5.59ms
+2026-03-17 12:58:25,506 - backend.app - INFO - Response [1773732505.5019982-2583211362096] - Status: 200 - Duration: 4.23ms
+2026-03-17 12:58:25,517 - backend.app - INFO - Request [1773732505.517918-2583211141680] - GET /api/v1/stats/
+2026-03-17 12:58:25,520 - backend.app - INFO - Response [1773732505.517918-2583211141680] - Status: 200 - Duration: 2.96ms
+2026-03-17 12:58:25,897 - backend.app - INFO - Request [1773732505.897817-2583211144720] - GET /health
+2026-03-17 12:58:25,900 - backend.app - INFO - Request [1773732505.9007213-2583211363216] - GET /api/v1/stats/
+2026-03-17 12:58:25,904 - backend.app - INFO - Response [1773732505.897817-2583211144720] - Status: 200 - Duration: 6.82ms
+2026-03-17 12:58:25,906 - backend.app - INFO - Response [1773732505.9007213-2583211363216] - Status: 200 - Duration: 5.47ms
+2026-03-17 12:58:25,916 - backend.app - INFO - Request [1773732505.9169285-2583211145360] - GET /api/v1/stats/
+2026-03-17 12:58:25,919 - backend.app - INFO - Response [1773732505.9169285-2583211145360] - Status: 200 - Duration: 2.97ms
+2026-03-17 12:58:26,312 - backend.app - INFO - Request [1773732506.3127532-2583211146960] - GET /health
+2026-03-17 12:58:26,315 - backend.app - INFO - Request [1773732506.3154857-2583211142800] - GET /api/v1/stats/
+2026-03-17 12:58:26,318 - backend.app - INFO - Response [1773732506.3127532-2583211146960] - Status: 200 - Duration: 5.81ms
+2026-03-17 12:58:26,320 - backend.app - INFO - Response [1773732506.3154857-2583211142800] - Status: 200 - Duration: 4.50ms
+2026-03-17 12:58:26,334 - backend.app - INFO - Request [1773732506.334169-2583211136880] - GET /api/v1/stats/
+2026-03-17 12:58:26,336 - backend.app - INFO - Response [1773732506.334169-2583211136880] - Status: 200 - Duration: 1.98ms
+2026-03-17 12:58:26,723 - backend.app - INFO - Request [1773732506.7234263-2583211136400] - GET /health
+2026-03-17 12:58:26,726 - backend.app - INFO - Request [1773732506.7264342-2583211143920] - GET /api/v1/stats/
+2026-03-17 12:58:26,729 - backend.app - INFO - Response [1773732506.7234263-2583211136400] - Status: 200 - Duration: 6.24ms
+2026-03-17 12:58:26,732 - backend.app - INFO - Response [1773732506.7264342-2583211143920] - Status: 200 - Duration: 5.71ms
+2026-03-17 12:58:26,738 - backend.app - INFO - Request [1773732506.7387478-2583211146800] - GET /api/v1/stats/
+2026-03-17 12:58:26,741 - backend.app - INFO - Response [1773732506.7387478-2583211146800] - Status: 200 - Duration: 2.76ms
+2026-03-17 12:58:27,116 - backend.app - INFO - Request [1773732507.116238-2583211145520] - GET /health
+2026-03-17 12:58:27,119 - backend.app - INFO - Request [1773732507.1191838-2583211145200] - GET /api/v1/stats/
+2026-03-17 12:58:27,121 - backend.app - INFO - Response [1773732507.116238-2583211145520] - Status: 200 - Duration: 5.00ms
+2026-03-17 12:58:27,122 - backend.app - INFO - Response [1773732507.1191838-2583211145200] - Status: 200 - Duration: 3.23ms
+2026-03-17 12:58:27,135 - backend.app - INFO - Request [1773732507.1356146-2583211141520] - GET /api/v1/stats/
+2026-03-17 12:58:27,137 - backend.app - INFO - Response [1773732507.1356146-2583211141520] - Status: 200 - Duration: 2.34ms
+2026-03-17 12:58:27,498 - backend.app - INFO - Request [1773732507.4983265-2583211133840] - GET /health
+2026-03-17 12:58:27,501 - backend.app - INFO - Request [1773732507.5011437-2583211139760] - GET /api/v1/stats/
+2026-03-17 12:58:27,503 - backend.app - INFO - Response [1773732507.4983265-2583211133840] - Status: 200 - Duration: 5.58ms
+2026-03-17 12:58:27,506 - backend.app - INFO - Response [1773732507.5011437-2583211139760] - Status: 200 - Duration: 5.03ms
+2026-03-17 12:58:27,520 - backend.app - INFO - Request [1773732507.5202844-2583211139920] - GET /api/v1/stats/
+2026-03-17 12:58:27,523 - backend.app - INFO - Response [1773732507.5202844-2583211139920] - Status: 200 - Duration: 2.89ms
+2026-03-17 12:58:27,916 - backend.app - INFO - Request [1773732507.9162002-2583211140240] - GET /health
+2026-03-17 12:58:27,918 - backend.app - INFO - Request [1773732507.9189386-2583211143760] - GET /api/v1/stats/
+2026-03-17 12:58:27,921 - backend.app - INFO - Response [1773732507.9162002-2583211140240] - Status: 200 - Duration: 5.50ms
+2026-03-17 12:58:27,923 - backend.app - INFO - Response [1773732507.9189386-2583211143760] - Status: 200 - Duration: 4.13ms
+2026-03-17 12:58:27,936 - backend.app - INFO - Request [1773732507.9361145-2583211132080] - GET /api/v1/stats/
+2026-03-17 12:58:27,939 - backend.app - INFO - Response [1773732507.9361145-2583211132080] - Status: 200 - Duration: 2.92ms
+2026-03-17 12:58:28,318 - backend.app - INFO - Request [1773732508.3185968-2583211136080] - GET /health
+2026-03-17 12:58:28,321 - backend.app - INFO - Request [1773732508.3214397-2583211146160] - GET /api/v1/stats/
+2026-03-17 12:58:28,321 - backend.app - INFO - Response [1773732508.3185968-2583211136080] - Status: 200 - Duration: 3.35ms
+2026-03-17 12:58:28,326 - backend.app - INFO - Response [1773732508.3214397-2583211146160] - Status: 200 - Duration: 5.25ms
+2026-03-17 12:58:28,365 - backend.app - INFO - Request [1773732508.3652456-2583211140400] - GET /api/v1/stats/
+2026-03-17 12:58:28,368 - backend.app - INFO - Response [1773732508.3652456-2583211140400] - Status: 200 - Duration: 3.45ms
+2026-03-17 12:58:28,702 - backend.app - INFO - Request [1773732508.7024848-2583211137840] - GET /health
+2026-03-17 12:58:28,705 - backend.app - INFO - Request [1773732508.7050614-2583211143280] - GET /api/v1/stats/
+2026-03-17 12:58:28,707 - backend.app - INFO - Response [1773732508.7024848-2583211137840] - Status: 200 - Duration: 4.71ms
+2026-03-17 12:58:28,710 - backend.app - INFO - Response [1773732508.7050614-2583211143280] - Status: 200 - Duration: 4.92ms
+2026-03-17 12:58:28,722 - backend.app - INFO - Request [1773732508.7220519-2583211142000] - GET /api/v1/stats/
+2026-03-17 12:58:28,724 - backend.app - INFO - Response [1773732508.7220519-2583211142000] - Status: 200 - Duration: 2.69ms
+2026-03-17 12:58:29,114 - backend.app - INFO - Request [1773732509.1147332-2583211139280] - GET /health
+2026-03-17 12:58:29,117 - backend.app - INFO - Request [1773732509.1173747-2583211135440] - GET /api/v1/stats/
+2026-03-17 12:58:29,120 - backend.app - INFO - Response [1773732509.1147332-2583211139280] - Status: 200 - Duration: 5.45ms
+2026-03-17 12:58:29,121 - backend.app - INFO - Response [1773732509.1173747-2583211135440] - Status: 200 - Duration: 4.48ms
+2026-03-17 12:58:29,135 - backend.app - INFO - Request [1773732509.1355572-2583211131120] - GET /api/v1/stats/
+2026-03-17 12:58:29,138 - backend.app - INFO - Response [1773732509.1355572-2583211131120] - Status: 200 - Duration: 3.03ms
+2026-03-17 12:58:29,527 - backend.app - INFO - Request [1773732509.5276341-2583211133680] - GET /health
+2026-03-17 12:58:29,530 - backend.app - INFO - Request [1773732509.5307-2583211136560] - GET /api/v1/stats/
+2026-03-17 12:58:29,531 - backend.app - INFO - Response [1773732509.5276341-2583211133680] - Status: 200 - Duration: 3.59ms
+2026-03-17 12:58:29,535 - backend.app - INFO - Response [1773732509.5307-2583211136560] - Status: 200 - Duration: 4.77ms
+2026-03-17 12:58:29,549 - backend.app - INFO - Request [1773732509.5495076-2583211137520] - GET /api/v1/stats/
+2026-03-17 12:58:29,551 - backend.app - INFO - Response [1773732509.5495076-2583211137520] - Status: 200 - Duration: 2.41ms
+2026-03-17 12:58:29,925 - backend.app - INFO - Request [1773732509.9249768-2583211135760] - GET /health
+2026-03-17 12:58:29,928 - backend.app - INFO - Request [1773732509.9279828-2583210899440] - GET /api/v1/stats/
+2026-03-17 12:58:29,931 - backend.app - INFO - Response [1773732509.9249768-2583211135760] - Status: 200 - Duration: 5.99ms
+2026-03-17 12:58:29,932 - backend.app - INFO - Response [1773732509.9279828-2583210899440] - Status: 200 - Duration: 4.56ms
+2026-03-17 12:58:29,942 - backend.app - INFO - Request [1773732509.9427454-2583211132400] - GET /api/v1/stats/
+2026-03-17 12:58:29,946 - backend.app - INFO - Response [1773732509.9427454-2583211132400] - Status: 200 - Duration: 3.68ms
+2026-03-17 12:58:30,326 - backend.app - INFO - Request [1773732510.326546-2583211135920] - GET /health
+2026-03-17 12:58:30,329 - backend.app - INFO - Request [1773732510.3297644-2583210886480] - GET /api/v1/stats/
+2026-03-17 12:58:30,332 - backend.app - INFO - Response [1773732510.326546-2583211135920] - Status: 200 - Duration: 5.91ms
+2026-03-17 12:58:30,334 - backend.app - INFO - Response [1773732510.3297644-2583210886480] - Status: 200 - Duration: 4.54ms
+2026-03-17 12:58:30,346 - backend.app - INFO - Request [1773732510.3464823-2583210888240] - GET /api/v1/stats/
+2026-03-17 12:58:30,348 - backend.app - INFO - Response [1773732510.3464823-2583210888240] - Status: 200 - Duration: 2.33ms
+2026-03-17 12:58:30,714 - backend.app - INFO - Request [1773732510.7148924-2583210901040] - GET /health
+2026-03-17 12:58:30,717 - backend.app - INFO - Request [1773732510.7174933-2583210900080] - GET /api/v1/stats/
+2026-03-17 12:58:30,720 - backend.app - INFO - Response [1773732510.7148924-2583210901040] - Status: 200 - Duration: 5.42ms
+2026-03-17 12:58:30,721 - backend.app - INFO - Response [1773732510.7174933-2583210900080] - Status: 200 - Duration: 4.19ms
+2026-03-17 12:58:30,733 - backend.app - INFO - Request [1773732510.7335415-2583210900240] - GET /api/v1/stats/
+2026-03-17 12:58:30,735 - backend.app - INFO - Response [1773732510.7335415-2583210900240] - Status: 200 - Duration: 2.29ms
+2026-03-17 12:58:31,115 - backend.app - INFO - Request [1773732511.1154613-2583210899120] - GET /health
+2026-03-17 12:58:31,118 - backend.app - INFO - Request [1773732511.1180909-2583210898800] - GET /api/v1/stats/
+2026-03-17 12:58:31,120 - backend.app - INFO - Response [1773732511.1154613-2583210899120] - Status: 200 - Duration: 4.61ms
+2026-03-17 12:58:31,121 - backend.app - INFO - Response [1773732511.1180909-2583210898800] - Status: 200 - Duration: 3.37ms
+2026-03-17 12:58:31,131 - backend.app - INFO - Request [1773732511.1318564-2583210898320] - GET /api/v1/stats/
+2026-03-17 12:58:31,134 - backend.app - INFO - Response [1773732511.1318564-2583210898320] - Status: 200 - Duration: 2.43ms
+2026-03-17 12:58:31,517 - backend.app - INFO - Request [1773732511.5175915-2583210886160] - GET /health
+2026-03-17 12:58:31,520 - backend.app - INFO - Request [1773732511.520327-2583211360656] - GET /api/v1/stats/
+2026-03-17 12:58:31,522 - backend.app - INFO - Response [1773732511.5175915-2583210886160] - Status: 200 - Duration: 5.15ms
+2026-03-17 12:58:31,524 - backend.app - INFO - Response [1773732511.520327-2583211360656] - Status: 200 - Duration: 4.09ms
+2026-03-17 12:58:31,534 - backend.app - INFO - Request [1773732511.5345511-2583210885680] - GET /api/v1/stats/
+2026-03-17 12:58:31,537 - backend.app - INFO - Response [1773732511.5345511-2583210885680] - Status: 200 - Duration: 2.69ms
+2026-03-17 12:58:31,907 - backend.app - INFO - Request [1773732511.907239-2583210898960] - GET /health
+2026-03-17 12:58:31,910 - backend.app - INFO - Request [1773732511.9103856-2583211363376] - GET /api/v1/stats/
+2026-03-17 12:58:31,913 - backend.app - INFO - Response [1773732511.907239-2583210898960] - Status: 200 - Duration: 6.38ms
+2026-03-17 12:58:31,915 - backend.app - INFO - Response [1773732511.9103856-2583211363376] - Status: 200 - Duration: 5.05ms
+2026-03-17 12:58:31,926 - backend.app - INFO - Request [1773732511.9260268-2583210899280] - GET /api/v1/stats/
+2026-03-17 12:58:31,928 - backend.app - INFO - Response [1773732511.9260268-2583210899280] - Status: 200 - Duration: 2.52ms
+2026-03-17 12:58:32,316 - backend.app - INFO - Request [1773732512.3163323-2583210901200] - GET /health
+2026-03-17 12:58:32,319 - backend.app - INFO - Request [1773732512.3191257-2583211363536] - GET /api/v1/stats/
+2026-03-17 12:58:32,319 - backend.app - INFO - Response [1773732512.3163323-2583210901200] - Status: 200 - Duration: 3.33ms
+2026-03-17 12:58:32,323 - backend.app - INFO - Response [1773732512.3191257-2583211363536] - Status: 200 - Duration: 3.86ms
+2026-03-17 12:58:32,333 - backend.app - INFO - Request [1773732512.3336728-2583211363856] - GET /api/v1/stats/
+2026-03-17 12:58:32,335 - backend.app - INFO - Response [1773732512.3336728-2583211363856] - Status: 200 - Duration: 2.01ms
+2026-03-17 12:58:32,710 - backend.app - INFO - Request [1773732512.7107697-2583211360816] - GET /health
+2026-03-17 12:58:32,713 - backend.app - INFO - Request [1773732512.7135024-2583211364016] - GET /api/v1/stats/
+2026-03-17 12:58:32,715 - backend.app - INFO - Response [1773732512.7107697-2583211360816] - Status: 200 - Duration: 4.93ms
+2026-03-17 12:58:32,717 - backend.app - INFO - Response [1773732512.7135024-2583211364016] - Status: 200 - Duration: 4.16ms
+2026-03-17 12:58:32,732 - backend.app - INFO - Request [1773732512.7320144-2583211362736] - GET /api/v1/stats/
+2026-03-17 12:58:32,734 - backend.app - INFO - Response [1773732512.7320144-2583211362736] - Status: 200 - Duration: 2.11ms
+2026-03-17 12:58:33,105 - backend.app - INFO - Request [1773732513.1050053-2583211367056] - GET /health
+2026-03-17 12:58:33,107 - backend.app - INFO - Request [1773732513.1077163-2583211364176] - GET /api/v1/stats/
+2026-03-17 12:58:33,111 - backend.app - INFO - Response [1773732513.1050053-2583211367056] - Status: 200 - Duration: 5.98ms
+2026-03-17 12:58:33,113 - backend.app - INFO - Response [1773732513.1077163-2583211364176] - Status: 200 - Duration: 5.71ms
+2026-03-17 12:58:33,125 - backend.app - INFO - Request [1773732513.1255307-2583211361456] - GET /api/v1/stats/
+2026-03-17 12:58:33,128 - backend.app - INFO - Response [1773732513.1255307-2583211361456] - Status: 200 - Duration: 2.95ms
+2026-03-17 12:58:33,519 - backend.app - INFO - Request [1773732513.5197818-2583211365776] - GET /health
+2026-03-17 12:58:33,522 - backend.app - INFO - Request [1773732513.5222852-2583211360976] - GET /api/v1/stats/
+2026-03-17 12:58:33,525 - backend.app - INFO - Response [1773732513.5197818-2583211365776] - Status: 200 - Duration: 5.84ms
+2026-03-17 12:58:33,528 - backend.app - INFO - Response [1773732513.5222852-2583211360976] - Status: 200 - Duration: 5.81ms
+2026-03-17 12:58:33,537 - backend.app - INFO - Request [1773732513.5375588-2583211370576] - GET /api/v1/stats/
+2026-03-17 12:58:33,541 - backend.app - INFO - Response [1773732513.5375588-2583211370576] - Status: 200 - Duration: 4.06ms
+2026-03-17 12:58:33,918 - backend.app - INFO - Request [1773732513.9181292-2583211369936] - GET /health
+2026-03-17 12:58:33,920 - backend.app - INFO - Request [1773732513.9206965-2583211364336] - GET /api/v1/stats/
+2026-03-17 12:58:33,923 - backend.app - INFO - Response [1773732513.9181292-2583211369936] - Status: 200 - Duration: 5.23ms
+2026-03-17 12:58:33,925 - backend.app - INFO - Response [1773732513.9206965-2583211364336] - Status: 200 - Duration: 5.04ms
+2026-03-17 12:58:33,935 - backend.app - INFO - Request [1773732513.9355304-2583211364496] - GET /api/v1/stats/
+2026-03-17 12:58:33,937 - backend.app - INFO - Response [1773732513.9355304-2583211364496] - Status: 200 - Duration: 2.09ms
+2026-03-17 12:58:34,298 - backend.app - INFO - Request [1773732514.2985961-2583211368176] - GET /health
+2026-03-17 12:58:34,300 - backend.app - INFO - Request [1773732514.3009465-2583211366736] - GET /api/v1/stats/
+2026-03-17 12:58:34,303 - backend.app - INFO - Response [1773732514.2985961-2583211368176] - Status: 200 - Duration: 4.54ms
+2026-03-17 12:58:34,304 - backend.app - INFO - Response [1773732514.3009465-2583211366736] - Status: 200 - Duration: 3.73ms
+2026-03-17 12:58:34,316 - backend.app - INFO - Request [1773732514.3167322-2583211369776] - GET /api/v1/stats/
+2026-03-17 12:58:34,318 - backend.app - INFO - Response [1773732514.3167322-2583211369776] - Status: 200 - Duration: 1.66ms
+2026-03-17 12:58:34,724 - backend.app - INFO - Request [1773732514.7246447-2583211372816] - GET /health
+2026-03-17 12:58:34,728 - backend.app - INFO - Request [1773732514.7283502-2583211366576] - GET /api/v1/stats/
+2026-03-17 12:58:34,732 - backend.app - INFO - Response [1773732514.7246447-2583211372816] - Status: 200 - Duration: 7.40ms
+2026-03-17 12:58:34,733 - backend.app - INFO - Response [1773732514.7283502-2583211366576] - Status: 200 - Duration: 5.39ms
+2026-03-17 12:58:34,746 - backend.app - INFO - Request [1773732514.7461774-2583211360496] - GET /api/v1/stats/
+2026-03-17 12:58:34,748 - backend.app - INFO - Response [1773732514.7461774-2583211360496] - Status: 200 - Duration: 1.88ms
+2026-03-17 12:58:35,128 - backend.app - INFO - Request [1773732515.1283653-2583211371056] - GET /health
+2026-03-17 12:58:35,131 - backend.app - INFO - Request [1773732515.131209-2583211369616] - GET /api/v1/stats/
+2026-03-17 12:58:35,134 - backend.app - INFO - Response [1773732515.1283653-2583211371056] - Status: 200 - Duration: 5.99ms
+2026-03-17 12:58:35,135 - backend.app - INFO - Response [1773732515.131209-2583211369616] - Status: 200 - Duration: 4.55ms
+2026-03-17 12:58:35,149 - backend.app - INFO - Request [1773732515.149311-2583210901200] - GET /api/v1/stats/
+2026-03-17 12:58:35,152 - backend.app - INFO - Response [1773732515.149311-2583210901200] - Status: 200 - Duration: 2.76ms
+2026-03-17 12:58:35,550 - backend.app - INFO - Request [1773732515.550149-2583210885680] - GET /health
+2026-03-17 12:58:35,552 - backend.app - INFO - Request [1773732515.5527077-2583210900720] - GET /api/v1/stats/
+2026-03-17 12:58:35,554 - backend.app - INFO - Response [1773732515.550149-2583210885680] - Status: 200 - Duration: 4.81ms
+2026-03-17 12:58:35,556 - backend.app - INFO - Response [1773732515.5527077-2583210900720] - Status: 200 - Duration: 3.70ms
+2026-03-17 12:58:35,566 - backend.app - INFO - Request [1773732515.5659711-2583210899120] - GET /api/v1/stats/
+2026-03-17 12:58:35,568 - backend.app - INFO - Response [1773732515.5659711-2583210899120] - Status: 200 - Duration: 2.07ms
+2026-03-17 12:58:35,956 - backend.app - INFO - Request [1773732515.9569387-2583210886800] - GET /health
+2026-03-17 12:58:35,960 - backend.app - INFO - Request [1773732515.9604692-2583210887760] - GET /api/v1/stats/
+2026-03-17 12:58:35,964 - backend.app - INFO - Response [1773732515.9569387-2583210886800] - Status: 200 - Duration: 7.25ms
+2026-03-17 12:58:35,966 - backend.app - INFO - Response [1773732515.9604692-2583210887760] - Status: 200 - Duration: 6.10ms
+2026-03-17 12:58:35,979 - backend.app - INFO - Request [1773732515.979515-2583210899280] - GET /api/v1/stats/
+2026-03-17 12:58:35,982 - backend.app - INFO - Response [1773732515.979515-2583210899280] - Status: 200 - Duration: 2.97ms
+2026-03-17 12:58:36,355 - backend.app - INFO - Request [1773732516.3552785-2583210887440] - GET /health
+2026-03-17 12:58:36,358 - backend.app - INFO - Request [1773732516.3582373-2583211131600] - GET /api/v1/stats/
+2026-03-17 12:58:36,360 - backend.app - INFO - Response [1773732516.3552785-2583210887440] - Status: 200 - Duration: 5.58ms
+2026-03-17 12:58:36,363 - backend.app - INFO - Response [1773732516.3582373-2583211131600] - Status: 200 - Duration: 5.22ms
+2026-03-17 12:58:36,377 - backend.app - INFO - Request [1773732516.3771274-2583210898320] - GET /api/v1/stats/
+2026-03-17 12:58:36,380 - backend.app - INFO - Response [1773732516.3771274-2583210898320] - Status: 200 - Duration: 2.98ms
+2026-03-17 12:58:36,755 - backend.app - INFO - Request [1773732516.7554061-2583210897840] - GET /health
+2026-03-17 12:58:36,757 - backend.app - INFO - Request [1773732516.7579148-2583211131280] - GET /api/v1/stats/
+2026-03-17 12:58:36,760 - backend.app - INFO - Response [1773732516.7554061-2583210897840] - Status: 200 - Duration: 4.61ms
+2026-03-17 12:58:36,761 - backend.app - INFO - Response [1773732516.7579148-2583211131280] - Status: 200 - Duration: 3.70ms
+2026-03-17 12:58:36,771 - backend.app - INFO - Request [1773732516.7718875-2583210897200] - GET /api/v1/stats/
+2026-03-17 12:58:36,774 - backend.app - INFO - Response [1773732516.7718875-2583210897200] - Status: 200 - Duration: 2.42ms
+2026-03-17 12:58:37,148 - backend.app - INFO - Request [1773732517.1487484-2583211133360] - GET /health
+2026-03-17 12:58:37,151 - backend.app - INFO - Request [1773732517.1515577-2583211134480] - GET /api/v1/stats/
+2026-03-17 12:58:37,154 - backend.app - INFO - Response [1773732517.1487484-2583211133360] - Status: 200 - Duration: 6.03ms
+2026-03-17 12:58:37,157 - backend.app - INFO - Response [1773732517.1515577-2583211134480] - Status: 200 - Duration: 5.74ms
+2026-03-17 12:58:37,167 - backend.app - INFO - Request [1773732517.1674588-2583211142480] - GET /api/v1/stats/
+2026-03-17 12:58:37,170 - backend.app - INFO - Response [1773732517.1674588-2583211142480] - Status: 200 - Duration: 2.55ms
+2026-03-17 12:58:37,546 - backend.app - INFO - Request [1773732517.5462232-2583211138640] - GET /health
+2026-03-17 12:58:37,548 - backend.app - INFO - Request [1773732517.548815-2583211132560] - GET /api/v1/stats/
+2026-03-17 12:58:37,550 - backend.app - INFO - Response [1773732517.5462232-2583211138640] - Status: 200 - Duration: 4.63ms
+2026-03-17 12:58:37,552 - backend.app - INFO - Response [1773732517.548815-2583211132560] - Status: 200 - Duration: 3.53ms
+2026-03-17 12:58:37,568 - backend.app - INFO - Request [1773732517.568278-2583211137200] - GET /api/v1/stats/
+2026-03-17 12:58:37,571 - backend.app - INFO - Response [1773732517.568278-2583211137200] - Status: 200 - Duration: 2.91ms
+2026-03-17 12:58:37,976 - backend.app - INFO - Request [1773732517.9763224-2583211140400] - GET /health
+2026-03-17 12:58:37,979 - backend.app - INFO - Request [1773732517.9790106-2583211136720] - GET /api/v1/stats/
+2026-03-17 12:58:37,979 - backend.app - INFO - Response [1773732517.9763224-2583211140400] - Status: 200 - Duration: 3.16ms
+2026-03-17 12:58:37,983 - backend.app - INFO - Response [1773732517.9790106-2583211136720] - Status: 200 - Duration: 4.69ms
+2026-03-17 12:58:37,992 - backend.app - INFO - Request [1773732517.9928596-2583211134000] - GET /api/v1/stats/
+2026-03-17 12:58:37,995 - backend.app - INFO - Response [1773732517.9928596-2583211134000] - Status: 200 - Duration: 2.22ms
+2026-03-17 12:58:38,338 - backend.app - INFO - Request [1773732518.3386528-2583211144080] - GET /health
+2026-03-17 12:58:38,341 - backend.app - INFO - Request [1773732518.3414896-2583211132400] - GET /api/v1/stats/
+2026-03-17 12:58:38,344 - backend.app - INFO - Response [1773732518.3386528-2583211144080] - Status: 200 - Duration: 5.71ms
+2026-03-17 12:58:38,345 - backend.app - INFO - Response [1773732518.3414896-2583211132400] - Status: 200 - Duration: 4.46ms
+2026-03-17 12:58:38,358 - backend.app - INFO - Request [1773732518.3581555-2583211141840] - GET /api/v1/stats/
+2026-03-17 12:58:38,361 - backend.app - INFO - Response [1773732518.3581555-2583211141840] - Status: 200 - Duration: 3.11ms
+2026-03-17 12:58:38,763 - backend.app - INFO - Request [1773732518.7634969-2583211139920] - GET /health
+2026-03-17 12:58:38,766 - backend.app - INFO - Request [1773732518.7665582-2583211136080] - GET /api/v1/stats/
+2026-03-17 12:58:38,767 - backend.app - INFO - Response [1773732518.7634969-2583211139920] - Status: 200 - Duration: 3.64ms
+2026-03-17 12:58:38,770 - backend.app - INFO - Response [1773732518.7665582-2583211136080] - Status: 200 - Duration: 4.15ms
+2026-03-17 12:58:38,783 - backend.app - INFO - Request [1773732518.7837594-2583211141040] - GET /api/v1/stats/
+2026-03-17 12:58:38,787 - backend.app - INFO - Response [1773732518.7837594-2583211141040] - Status: 200 - Duration: 3.50ms
+2026-03-17 12:58:39,187 - backend.app - INFO - Request [1773732519.1873631-2583211140720] - GET /health
+2026-03-17 12:58:39,190 - backend.app - INFO - Request [1773732519.1904056-2583211134960] - GET /api/v1/stats/
+2026-03-17 12:58:39,193 - backend.app - INFO - Response [1773732519.1873631-2583211140720] - Status: 200 - Duration: 6.37ms
+2026-03-17 12:58:39,196 - backend.app - INFO - Response [1773732519.1904056-2583211134960] - Status: 200 - Duration: 5.68ms
+2026-03-17 12:58:39,205 - backend.app - INFO - Request [1773732519.2054505-2583211137680] - GET /api/v1/stats/
+2026-03-17 12:58:39,209 - backend.app - INFO - Response [1773732519.2054505-2583211137680] - Status: 200 - Duration: 3.53ms
+2026-03-17 12:58:39,562 - backend.app - INFO - Request [1773732519.5629516-2583211146800] - GET /health
+2026-03-17 12:58:39,565 - backend.app - INFO - Request [1773732519.5656567-2583211139760] - GET /api/v1/stats/
+2026-03-17 12:58:39,566 - backend.app - INFO - Response [1773732519.5629516-2583211146800] - Status: 200 - Duration: 3.22ms
+2026-03-17 12:58:39,569 - backend.app - INFO - Response [1773732519.5656567-2583211139760] - Status: 200 - Duration: 3.45ms
+2026-03-17 12:58:39,583 - backend.app - INFO - Request [1773732519.5831327-2583211146160] - GET /api/v1/stats/
+2026-03-17 12:58:39,585 - backend.app - INFO - Response [1773732519.5831327-2583211146160] - Status: 200 - Duration: 2.63ms
+2026-03-17 12:58:39,986 - backend.app - INFO - Request [1773732519.9860547-2583211146000] - GET /health
+2026-03-17 12:58:39,988 - backend.app - INFO - Request [1773732519.9889228-2583211131760] - GET /api/v1/stats/
+2026-03-17 12:58:39,992 - backend.app - INFO - Response [1773732519.9860547-2583211146000] - Status: 200 - Duration: 6.23ms
+2026-03-17 12:58:39,993 - backend.app - INFO - Response [1773732519.9889228-2583211131760] - Status: 200 - Duration: 4.94ms
+2026-03-17 12:58:40,002 - backend.app - INFO - Request [1773732520.002673-2583211146480] - GET /api/v1/stats/
+2026-03-17 12:58:40,005 - backend.app - INFO - Response [1773732520.002673-2583211146480] - Status: 200 - Duration: 2.34ms
+2026-03-17 12:58:40,407 - backend.app - INFO - Request [1773732520.407301-2583211145360] - GET /health
+2026-03-17 12:58:40,410 - backend.app - INFO - Request [1773732520.410686-2583211136400] - GET /api/v1/stats/
+2026-03-17 12:58:40,413 - backend.app - INFO - Response [1773732520.407301-2583211145360] - Status: 200 - Duration: 6.29ms
+2026-03-17 12:58:40,415 - backend.app - INFO - Response [1773732520.410686-2583211136400] - Status: 200 - Duration: 4.61ms
+2026-03-17 12:58:40,430 - backend.app - INFO - Request [1773732520.4303985-2583211139600] - GET /api/v1/stats/
+2026-03-17 12:58:40,433 - backend.app - INFO - Response [1773732520.4303985-2583211139600] - Status: 200 - Duration: 2.81ms
+2026-03-17 12:58:40,793 - backend.app - INFO - Request [1773732520.793555-2583211133520] - GET /health
+2026-03-17 12:58:40,796 - backend.app - INFO - Request [1773732520.7961886-2583211374896] - GET /api/v1/stats/
+2026-03-17 12:58:40,798 - backend.app - INFO - Response [1773732520.793555-2583211133520] - Status: 200 - Duration: 5.27ms
+2026-03-17 12:58:40,800 - backend.app - INFO - Response [1773732520.7961886-2583211374896] - Status: 200 - Duration: 4.41ms
+2026-03-17 12:58:40,814 - backend.app - INFO - Request [1773732520.814347-2583211144400] - GET /api/v1/stats/
+2026-03-17 12:58:40,817 - backend.app - INFO - Response [1773732520.814347-2583211144400] - Status: 200 - Duration: 3.04ms
+2026-03-17 12:58:41,182 - backend.app - INFO - Request [1773732521.1827877-2583211143280] - GET /health
+2026-03-17 12:58:41,184 - backend.app - INFO - Request [1773732521.1849077-2583211370896] - GET /api/v1/stats/
+2026-03-17 12:58:41,187 - backend.app - INFO - Response [1773732521.1827877-2583211143280] - Status: 200 - Duration: 4.50ms
+2026-03-17 12:58:41,188 - backend.app - INFO - Response [1773732521.1849077-2583211370896] - Status: 200 - Duration: 3.80ms
+2026-03-17 12:58:41,201 - backend.app - INFO - Request [1773732521.2005847-2583211140080] - GET /api/v1/stats/
+2026-03-17 12:58:41,206 - backend.app - INFO - Response [1773732521.2005847-2583211140080] - Status: 200 - Duration: 5.79ms
+2026-03-17 12:58:41,595 - backend.app - INFO - Request [1773732521.595027-2583211134800] - GET /health
+2026-03-17 12:58:41,597 - backend.app - INFO - Request [1773732521.597856-2583211373776] - GET /api/v1/stats/
+2026-03-17 12:58:41,600 - backend.app - INFO - Response [1773732521.595027-2583211134800] - Status: 200 - Duration: 5.00ms
+2026-03-17 12:58:41,602 - backend.app - INFO - Response [1773732521.597856-2583211373776] - Status: 200 - Duration: 4.08ms
+2026-03-17 12:58:41,611 - backend.app - INFO - Request [1773732521.6113377-2583211366896] - GET /api/v1/stats/
+2026-03-17 12:58:41,614 - backend.app - INFO - Response [1773732521.6113377-2583211366896] - Status: 200 - Duration: 2.98ms
+2026-03-17 12:58:42,013 - backend.app - INFO - Request [1773732522.013071-2583211374096] - GET /health
+2026-03-17 12:58:42,015 - backend.app - INFO - Request [1773732522.015899-2583211373616] - GET /api/v1/stats/
+2026-03-17 12:58:42,016 - backend.app - INFO - Response [1773732522.013071-2583211374096] - Status: 200 - Duration: 3.36ms
+2026-03-17 12:58:42,020 - backend.app - INFO - Response [1773732522.015899-2583211373616] - Status: 200 - Duration: 4.69ms
+2026-03-17 12:58:42,035 - backend.app - INFO - Request [1773732522.0351748-2583211375376] - GET /api/v1/stats/
+2026-03-17 12:58:42,037 - backend.app - INFO - Response [1773732522.0351748-2583211375376] - Status: 200 - Duration: 2.75ms
+2026-03-17 12:58:42,411 - backend.app - INFO - Request [1773732522.4112308-2583211373136] - GET /health
+2026-03-17 12:58:42,413 - backend.app - INFO - Request [1773732522.4134257-2583211371216] - GET /api/v1/stats/
+2026-03-17 12:58:42,415 - backend.app - INFO - Response [1773732522.4112308-2583211373136] - Status: 200 - Duration: 4.54ms
+2026-03-17 12:58:42,417 - backend.app - INFO - Response [1773732522.4134257-2583211371216] - Status: 200 - Duration: 3.85ms
+2026-03-17 12:58:42,428 - backend.app - INFO - Request [1773732522.4285517-2583211370256] - GET /api/v1/stats/
+2026-03-17 12:58:42,430 - backend.app - INFO - Response [1773732522.4285517-2583211370256] - Status: 200 - Duration: 2.01ms
+2026-03-17 12:58:42,824 - backend.app - INFO - Request [1773732522.8242111-2583211366096] - GET /health
+2026-03-17 12:58:42,827 - backend.app - INFO - Request [1773732522.8270173-2583211365456] - GET /api/v1/stats/
+2026-03-17 12:58:42,829 - backend.app - INFO - Response [1773732522.8242111-2583211366096] - Status: 200 - Duration: 5.51ms
+2026-03-17 12:58:42,831 - backend.app - INFO - Response [1773732522.8270173-2583211365456] - Status: 200 - Duration: 4.39ms
+2026-03-17 12:58:42,845 - backend.app - INFO - Request [1773732522.845557-2583211372336] - GET /api/v1/stats/
+2026-03-17 12:58:42,847 - backend.app - INFO - Response [1773732522.845557-2583211372336] - Status: 200 - Duration: 2.07ms
+2026-03-17 12:58:43,219 - backend.app - INFO - Request [1773732523.2196152-2583211373936] - GET /health
+2026-03-17 12:58:43,222 - backend.app - INFO - Request [1773732523.2224984-2583211366416] - GET /api/v1/stats/
+2026-03-17 12:58:43,225 - backend.app - INFO - Response [1773732523.2196152-2583211373936] - Status: 200 - Duration: 5.80ms
+2026-03-17 12:58:43,228 - backend.app - INFO - Response [1773732523.2224984-2583211366416] - Status: 200 - Duration: 5.52ms
+2026-03-17 12:58:43,243 - backend.app - INFO - Request [1773732523.2430406-2583211364336] - GET /api/v1/stats/
+2026-03-17 12:58:43,247 - backend.app - INFO - Response [1773732523.2430406-2583211364336] - Status: 200 - Duration: 4.87ms
+2026-03-17 12:58:43,639 - backend.app - INFO - Request [1773732523.6389492-2583211364976] - GET /health
+2026-03-17 12:58:43,642 - backend.app - INFO - Request [1773732523.6420712-2583211360496] - GET /api/v1/stats/
+2026-03-17 12:58:43,645 - backend.app - INFO - Response [1773732523.6389492-2583211364976] - Status: 200 - Duration: 6.08ms
+2026-03-17 12:58:43,646 - backend.app - INFO - Response [1773732523.6420712-2583211360496] - Status: 200 - Duration: 4.66ms
+2026-03-17 12:58:43,659 - backend.app - INFO - Request [1773732523.6596816-2583211369456] - GET /api/v1/stats/
+2026-03-17 12:58:43,662 - backend.app - INFO - Response [1773732523.6596816-2583211369456] - Status: 200 - Duration: 2.97ms
+2026-03-17 12:58:44,053 - backend.app - INFO - Request [1773732524.053719-2583211368976] - GET /health
+2026-03-17 12:58:44,056 - backend.app - INFO - Request [1773732524.0559978-2583211367696] - GET /api/v1/stats/
+2026-03-17 12:58:44,058 - backend.app - INFO - Response [1773732524.053719-2583211368976] - Status: 200 - Duration: 4.45ms
+2026-03-17 12:58:44,059 - backend.app - INFO - Response [1773732524.0559978-2583211367696] - Status: 200 - Duration: 3.68ms
+2026-03-17 12:58:44,074 - backend.app - INFO - Request [1773732524.074013-2583211364176] - GET /api/v1/stats/
+2026-03-17 12:58:44,076 - backend.app - INFO - Response [1773732524.074013-2583211364176] - Status: 200 - Duration: 2.59ms
+2026-03-17 12:58:44,456 - backend.app - INFO - Request [1773732524.456521-2583211365936] - GET /health
+2026-03-17 12:58:44,459 - backend.app - INFO - Request [1773732524.459318-2583211371536] - GET /api/v1/stats/
+2026-03-17 12:58:44,462 - backend.app - INFO - Response [1773732524.456521-2583211365936] - Status: 200 - Duration: 5.48ms
+2026-03-17 12:58:44,465 - backend.app - INFO - Response [1773732524.459318-2583211371536] - Status: 200 - Duration: 5.78ms
+2026-03-17 12:58:44,475 - backend.app - INFO - Request [1773732524.4756536-2583211367856] - GET /api/v1/stats/
+2026-03-17 12:58:44,479 - backend.app - INFO - Response [1773732524.4756536-2583211367856] - Status: 200 - Duration: 3.46ms
+2026-03-17 12:58:44,870 - backend.app - INFO - Request [1773732524.8705697-2583211362896] - GET /health
+2026-03-17 12:58:44,874 - backend.app - INFO - Request [1773732524.874214-2583211363856] - GET /api/v1/stats/
+2026-03-17 12:58:44,877 - backend.app - INFO - Response [1773732524.8705697-2583211362896] - Status: 200 - Duration: 7.02ms
+2026-03-17 12:58:44,881 - backend.app - INFO - Response [1773732524.874214-2583211363856] - Status: 200 - Duration: 7.24ms
+2026-03-17 12:58:44,919 - backend.app - INFO - Request [1773732524.9193425-2583211364016] - GET /api/v1/stats/
+2026-03-17 12:58:44,922 - backend.app - INFO - Response [1773732524.9193425-2583211364016] - Status: 200 - Duration: 3.43ms
+2026-03-17 12:58:45,257 - backend.app - INFO - Request [1773732525.2571263-2583211361456] - GET /health
+2026-03-17 12:58:45,260 - backend.app - INFO - Request [1773732525.2601368-2583211541200] - GET /api/v1/stats/
+2026-03-17 12:58:45,260 - backend.app - INFO - Response [1773732525.2571263-2583211361456] - Status: 200 - Duration: 3.56ms
+2026-03-17 12:58:45,265 - backend.app - INFO - Response [1773732525.2601368-2583211541200] - Status: 200 - Duration: 5.76ms
+2026-03-17 12:58:45,284 - backend.app - INFO - Request [1773732525.2842212-2583211375856] - GET /api/v1/stats/
+2026-03-17 12:58:45,287 - backend.app - INFO - Response [1773732525.2842212-2583211375856] - Status: 200 - Duration: 2.80ms
+2026-03-17 12:58:45,658 - backend.app - INFO - Request [1773732525.658356-2583211361296] - GET /health
+2026-03-17 12:58:45,661 - backend.app - INFO - Request [1773732525.6614377-2583211543280] - GET /api/v1/stats/
+2026-03-17 12:58:45,664 - backend.app - INFO - Response [1773732525.658356-2583211361296] - Status: 200 - Duration: 5.83ms
+2026-03-17 12:58:45,666 - backend.app - INFO - Response [1773732525.6614377-2583211543280] - Status: 200 - Duration: 4.53ms
+2026-03-17 12:58:45,678 - backend.app - INFO - Request [1773732525.6783917-2583211369296] - GET /api/v1/stats/
+2026-03-17 12:58:45,680 - backend.app - INFO - Response [1773732525.6783917-2583211369296] - Status: 200 - Duration: 2.01ms
+2026-03-17 12:58:46,060 - backend.app - INFO - Request [1773732526.0604045-2583211544560] - GET /health
+2026-03-17 12:58:46,064 - backend.app - INFO - Request [1773732526.064222-2583211543120] - GET /api/v1/stats/
+2026-03-17 12:58:46,070 - backend.app - INFO - Response [1773732526.0604045-2583211544560] - Status: 200 - Duration: 9.76ms
+2026-03-17 12:58:46,077 - backend.app - INFO - Response [1773732526.064222-2583211543120] - Status: 200 - Duration: 12.89ms
+2026-03-17 12:58:46,083 - backend.app - INFO - Request [1773732526.083261-2583211369296] - GET /api/v1/stats/
+2026-03-17 12:58:46,085 - backend.app - INFO - Response [1773732526.083261-2583211369296] - Status: 200 - Duration: 2.63ms
+2026-03-17 12:58:53,966 - backend.app - INFO - Request [1773732533.966644-2583211360976] - GET /health
+2026-03-17 12:58:53,969 - backend.app - INFO - Response [1773732533.966644-2583211360976] - Status: 200 - Duration: 2.70ms
+2026-03-17 12:58:53,970 - backend.app - INFO - Request [1773732533.9707906-2583211376016] - OPTIONS /api/v1/stats/
+2026-03-17 12:58:53,973 - backend.app - INFO - Response [1773732533.9707906-2583211376016] - Status: 200 - Duration: 2.47ms
+2026-03-17 12:58:53,977 - backend.app - INFO - Request [1773732533.9775329-2583211362576] - GET /api/v1/stats/
+2026-03-17 12:58:53,980 - backend.app - INFO - Response [1773732533.9775329-2583211362576] - Status: 200 - Duration: 3.11ms
+2026-03-17 12:58:53,988 - backend.app - INFO - Request [1773732533.9881117-2583211364496] - GET /api/v1/stats/
+2026-03-17 12:58:53,991 - backend.app - INFO - Response [1773732533.9881117-2583211364496] - Status: 200 - Duration: 3.28ms
+2026-03-17 12:59:03,921 - backend.app - INFO - Request [1773732543.9216475-2583211376176] - GET /api/v1/stats/
+2026-03-17 12:59:03,923 - backend.app - INFO - Response [1773732543.9216475-2583211376176] - Status: 200 - Duration: 2.32ms
+2026-03-17 12:59:05,271 - backend.app - INFO - Request [1773732545.271079-2583211363696] - OPTIONS /health
+2026-03-17 12:59:05,271 - backend.app - INFO - Response [1773732545.271079-2583211363696] - Status: 200 - Duration: 0.81ms
+2026-03-17 12:59:05,274 - backend.app - INFO - Request [1773732545.2746904-2583211365936] - GET /health
+2026-03-17 12:59:05,276 - backend.app - INFO - Response [1773732545.2746904-2583211365936] - Status: 200 - Duration: 2.21ms
+2026-03-17 12:59:06,488 - backend.app - INFO - Request [1773732546.4884827-2583211362416] - OPTIONS /api/v1/documents/
+2026-03-17 12:59:06,489 - backend.app - INFO - Response [1773732546.4884827-2583211362416] - Status: 200 - Duration: 0.65ms
+2026-03-17 12:59:06,491 - backend.app - INFO - Request [1773732546.4916606-2583211368976] - GET /api/v1/documents/
+2026-03-17 12:59:06,493 - backend.app - INFO - Response [1773732546.4916606-2583211368976] - Status: 200 - Duration: 2.08ms
+2026-03-17 12:59:08,116 - backend.app - INFO - Request [1773732548.1164942-2583211364976] - GET /health
+2026-03-17 12:59:08,119 - backend.app - INFO - Response [1773732548.1164942-2583211364976] - Status: 200 - Duration: 2.78ms
+2026-03-17 12:59:08,122 - backend.app - INFO - Request [1773732548.122898-2583211364816] - GET /api/v1/stats/
+2026-03-17 12:59:08,126 - backend.app - INFO - Response [1773732548.122898-2583211364816] - Status: 200 - Duration: 3.42ms
+2026-03-17 12:59:08,137 - backend.app - INFO - Request [1773732548.1375587-2583211360816] - GET /api/v1/stats/
+2026-03-17 12:59:08,140 - backend.app - INFO - Response [1773732548.1375587-2583211360816] - Status: 200 - Duration: 3.17ms
+2026-03-17 12:59:08,462 - backend.app - INFO - Request [1773732548.4624555-2583211366256] - GET /health
+2026-03-17 12:59:08,466 - backend.app - INFO - Request [1773732548.4660747-2583211365456] - GET /api/v1/stats/
+2026-03-17 12:59:08,469 - backend.app - INFO - Response [1773732548.4624555-2583211366256] - Status: 200 - Duration: 6.61ms
+2026-03-17 12:59:08,472 - backend.app - INFO - Response [1773732548.4660747-2583211365456] - Status: 200 - Duration: 6.51ms
+2026-03-17 12:59:08,495 - backend.app - INFO - Request [1773732548.4952888-2583211370256] - GET /api/v1/stats/
+2026-03-17 12:59:08,498 - backend.app - INFO - Response [1773732548.4952888-2583211370256] - Status: 200 - Duration: 3.32ms
+2026-03-17 12:59:08,834 - backend.app - INFO - Request [1773732548.8346808-2583211363376] - GET /health
+2026-03-17 12:59:08,837 - backend.app - INFO - Request [1773732548.837582-2583211366576] - GET /api/v1/stats/
+2026-03-17 12:59:08,840 - backend.app - INFO - Response [1773732548.8346808-2583211363376] - Status: 200 - Duration: 5.80ms
+2026-03-17 12:59:08,842 - backend.app - INFO - Response [1773732548.837582-2583211366576] - Status: 200 - Duration: 4.40ms
+2026-03-17 12:59:08,869 - backend.app - INFO - Request [1773732548.8692205-2583211365616] - GET /api/v1/stats/
+2026-03-17 12:59:08,872 - backend.app - INFO - Response [1773732548.8692205-2583211365616] - Status: 200 - Duration: 3.35ms
+2026-03-17 12:59:09,235 - backend.app - INFO - Request [1773732549.235412-2583211367216] - GET /health
+2026-03-17 12:59:09,238 - backend.app - INFO - Request [1773732549.2380774-2583211366096] - GET /api/v1/stats/
+2026-03-17 12:59:09,239 - backend.app - INFO - Response [1773732549.235412-2583211367216] - Status: 200 - Duration: 4.51ms
+2026-03-17 12:59:09,241 - backend.app - INFO - Response [1773732549.2380774-2583211366096] - Status: 200 - Duration: 3.30ms
+2026-03-17 12:59:09,271 - backend.app - INFO - Request [1773732549.2710023-2583211373136] - GET /api/v1/stats/
+2026-03-17 12:59:09,274 - backend.app - INFO - Response [1773732549.2710023-2583211373136] - Status: 200 - Duration: 3.91ms
+2026-03-17 12:59:09,644 - backend.app - INFO - Request [1773732549.6443126-2583211369136] - GET /health
+2026-03-17 12:59:09,647 - backend.app - INFO - Request [1773732549.6471984-2583211371856] - GET /api/v1/stats/
+2026-03-17 12:59:09,647 - backend.app - INFO - Response [1773732549.6443126-2583211369136] - Status: 200 - Duration: 3.38ms
+2026-03-17 12:59:09,651 - backend.app - INFO - Response [1773732549.6471984-2583211371856] - Status: 200 - Duration: 4.03ms
+2026-03-17 12:59:09,663 - backend.app - INFO - Request [1773732549.6634548-2583211368176] - GET /api/v1/stats/
+2026-03-17 12:59:09,666 - backend.app - INFO - Response [1773732549.6634548-2583211368176] - Status: 200 - Duration: 2.51ms
+2026-03-17 12:59:10,046 - backend.app - INFO - Request [1773732550.0464876-2583211367536] - GET /health
+2026-03-17 12:59:10,049 - backend.app - INFO - Request [1773732550.049177-2583211143120] - GET /api/v1/stats/
+2026-03-17 12:59:10,049 - backend.app - INFO - Response [1773732550.0464876-2583211367536] - Status: 200 - Duration: 3.17ms
+2026-03-17 12:59:10,052 - backend.app - INFO - Response [1773732550.049177-2583211143120] - Status: 200 - Duration: 3.75ms
+2026-03-17 12:59:10,081 - backend.app - INFO - Request [1773732550.0817356-2583211368336] - GET /api/v1/stats/
+2026-03-17 12:59:10,085 - backend.app - INFO - Response [1773732550.0817356-2583211368336] - Status: 200 - Duration: 3.36ms
+2026-03-17 12:59:10,445 - backend.app - INFO - Request [1773732550.4449933-2583211375376] - GET /health
+2026-03-17 12:59:10,447 - backend.app - INFO - Request [1773732550.4479382-2583211139600] - GET /api/v1/stats/
+2026-03-17 12:59:10,448 - backend.app - INFO - Response [1773732550.4449933-2583211375376] - Status: 200 - Duration: 3.47ms
+2026-03-17 12:59:10,456 - backend.app - INFO - Response [1773732550.4479382-2583211139600] - Status: 200 - Duration: 8.05ms
+2026-03-17 12:59:10,492 - backend.app - INFO - Request [1773732550.4919727-2583211374896] - GET /api/v1/stats/
+2026-03-17 12:59:10,495 - backend.app - INFO - Response [1773732550.4919727-2583211374896] - Status: 200 - Duration: 3.81ms
+2026-03-17 12:59:35,868 - backend.app - INFO - Shutting down application...
+2026-03-17 12:59:35,911 - backend.app - INFO - Database connections closed
+2026-03-17 12:59:35,912 - backend.app - INFO - Redis connection closed
+2026-03-17 12:59:35,913 - backend.app - INFO - Application shutdown complete

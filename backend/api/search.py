@@ -7,13 +7,14 @@ from fastapi import APIRouter, HTTPException, Request, Query
 import time
 import logging
 from typing import Optional, List, Dict, Any
+import asyncio
 
 from ..services.search_service import SearchService
 from ..services.cache_service import CacheService
 from ..services.analytics_service import AnalyticsService
 from ..utils.rate_limiter import RateLimiter
 
-router = APIRouter(prefix="/api/v1/search", tags=["search"])
+router = APIRouter(tags=["search"])
 logger = logging.getLogger(__name__)
 
 # Initialize services
@@ -22,7 +23,7 @@ cache_service = CacheService()
 analytics_service = AnalyticsService()
 rate_limiter = RateLimiter()
 
-@router.get("/")
+@router.get("/search/")
 async def search(
     request: Request,
     q: str = Query(..., description="Search query"),
@@ -31,14 +32,6 @@ async def search(
 ):
     """
     Search for documents matching the query
-    
-    Args:
-        q: Search query string
-        limit: Maximum number of results
-        offset: Pagination offset
-        
-    Returns:
-        Search results with metadata
     """
     start_time = time.time()
     cache_hit = False
@@ -81,7 +74,6 @@ async def search(
         execution_time = (time.time() - start_time) * 1000
         
         # Track analytics (don't await to avoid blocking)
-        import asyncio
         asyncio.create_task(
             analytics_service.track_search(
                 query=q,
@@ -112,7 +104,6 @@ async def search(
         
     except Exception as e:
         logger.error(f"Search error for query '{q}': {str(e)}", exc_info=True)
-        # Return empty results instead of throwing error
         return {
             "query": q,
             "total_results": 0,
@@ -122,7 +113,7 @@ async def search(
             "error": str(e)
         }
 
-@router.get("/popular")
+@router.get("/search/popular")
 async def get_popular_queries(
     period: str = Query("24h", description="Time period (e.g., 24h, 7d)"),
     limit: int = Query(10, description="Number of results", ge=1, le=50)
@@ -137,7 +128,7 @@ async def get_popular_queries(
         logger.error(f"Error getting popular queries: {e}")
         return {"queries": []}
 
-@router.get("/suggest")
+@router.get("/search/suggest")
 async def get_suggestions(
     q: str = Query(..., description="Partial query for suggestions"),
     limit: int = Query(5, description="Number of suggestions", ge=1, le=10)

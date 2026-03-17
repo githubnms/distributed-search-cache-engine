@@ -1,6 +1,6 @@
 """
 Services Package
-Contains all business logic services
+Exports all services
 """
 
 from .indexing_service import IndexingService

@@ -80,31 +80,14 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="""
-    Distributed Search & Cache Engine (DSCE)
-    
-    A scalable search system demonstrating:
-    * Full-text search with inverted indexing
-    * Redis caching with adaptive TTL
-    * Real-time analytics dashboard
-    * Document management
-    * Distributed systems concepts
-    """,
-    lifespan=lifespan,
-    contact={
-        "name": "DSCE Team",
-        "url": "https://github.com/yourusername/distributed-search-cache-engine",
-    },
-    license_info={
-        "name": "MIT License",
-        "url": "https://opensource.org/licenses/MIT",
-    }
+    description="Distributed Search & Cache Engine (DSCE)",
+    lifespan=lifespan
 )
 
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -123,8 +106,7 @@ async def log_requests(request: Request, call_next):
     
     # Log request
     logger.info(
-        f"Request [{request_id}] - {request.method} {request.url.path} - "
-        f"Client: {request.client.host if request.client else 'unknown'}"
+        f"Request [{request_id}] - {request.method} {request.url.path}"
     )
     
     try:
@@ -140,96 +122,55 @@ async def log_requests(request: Request, call_next):
             f"Duration: {duration*1000:.2f}ms"
         )
         
-        # Add response headers
-        response.headers["X-Request-ID"] = request_id
-        response.headers["X-Response-Time"] = f"{duration*1000:.2f}ms"
-        
         return response
         
     except Exception as e:
         # Log error
         duration = time.time() - start_time
         logger.error(
-            f"Error [{request_id}] - {str(e)} - Duration: {duration*1000:.2f}ms",
-            exc_info=True
+            f"Error [{request_id}] - {str(e)} - Duration: {duration*1000:.2f}ms"
         )
         
         # Return error response
         return JSONResponse(
             status_code=500,
-            content={
-                "detail": "Internal server error",
-                "request_id": request_id
-            }
-        )
-
-# Error handling middleware
-@app.middleware("http")
-async def error_handler(request: Request, call_next):
-    """
-    Global error handling middleware
-    """
-    try:
-        return await call_next(request)
-    except Exception as e:
-        logger.error(f"Unhandled error: {str(e)}", exc_info=True)
-        return JSONResponse(
-            status_code=500,
             content={"detail": "Internal server error"}
         )
 
-# Include routers
-app.include_router(search.router)
-app.include_router(documents.router)
-app.include_router(stats.router)
+# Include routers - IMPORTANT: This mounts the API routes
+app.include_router(search.router, prefix="/api/v1")
+app.include_router(documents.router, prefix="/api/v1")
+app.include_router(stats.router, prefix="/api/v1")
 
 # Health check endpoint
 @app.get("/health", tags=["System"])
 async def health_check() -> Dict:
     """
-    Comprehensive health check endpoint
-    
-    Returns:
-        Status of all services
+    Health check endpoint
     """
     # Check Redis
     redis_healthy = await cache_service.health_check()
     
     # Check database
     db_healthy = False
-    db_path = "unknown"
     try:
         with db.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT 1")
             cursor.fetchone()
         db_healthy = True
-        db_path = db.db_path
     except Exception as e:
         logger.error(f"Database health check failed: {e}")
     
-    # Overall status
-    all_healthy = redis_healthy and db_healthy
-    
     return {
-        "status": "healthy" if all_healthy else "degraded",
+        "status": "healthy" if (redis_healthy and db_healthy) else "degraded",
         "timestamp": time.time(),
         "version": settings.APP_VERSION,
         "environment": settings.ENVIRONMENT,
         "services": {
-            "api": {
-                "status": "healthy",
-                "message": "API service is running"
-            },
-            "database": {
-                "status": "healthy" if db_healthy else "unhealthy",
-                "path": db_path,
-                "message": "Connected" if db_healthy else "Connection failed"
-            },
-            "redis": {
-                "status": "healthy" if redis_healthy else "unhealthy",
-                "message": "Connected" if redis_healthy else "Not available - running without cache"
-            }
+            "api": {"status": "healthy"},
+            "database": {"status": "healthy" if db_healthy else "unhealthy"},
+            "redis": {"status": "healthy" if redis_healthy else "unhealthy"}
         }
     }
 
@@ -243,59 +184,39 @@ async def root() -> Dict:
         "name": settings.APP_NAME,
         "version": settings.APP_VERSION,
         "description": "Distributed Search & Cache Engine",
-        "environment": settings.ENVIRONMENT,
-        "documentation": {
-            "swagger": "/docs",
-            "redoc": "/redoc",
-            "openapi": "/openapi.json"
-        },
         "endpoints": {
             "search": "/api/v1/search/?q={query}",
             "documents": "/api/v1/documents/",
             "stats": "/api/v1/stats/",
-            "health": "/health"
+            "health": "/health",
+            "docs": "/docs"
         },
         "status": "running"
     }
 
-# API information endpoint
-@app.get("/api/v1/info", tags=["System"])
-async def api_info() -> Dict:
-    """
-    Get detailed API information
-    """
-    return {
-        "name": settings.APP_NAME,
-        "version": settings.APP_VERSION,
-        "environment": settings.ENVIRONMENT,
-        "features": [
-            "Full-text search with inverted indexing",
-            "Redis caching with adaptive TTL",
-            "Real-time analytics dashboard",
-            "Document management",
-            "Distributed systems simulation",
-            "Rate limiting",
-            "Fault tolerance"
-        ],
-        "cache": {
-            "type": "Redis",
-            "ttl": f"{settings.CACHE_TTL}s",
-            "status": "connected" if await cache_service.health_check() else "disconnected"
-        },
-        "database": {
-            "type": "SQLite",
-            "path": db.db_path,
-            "size": os.path.getsize(db.db_path) if os.path.exists(db.db_path) else 0
-        }
-    }
-
-# Serve favicon
-@app.get("/favicon.ico", include_in_schema=False)
-async def favicon():
-    return JSONResponse(content={})
+# Debug endpoint to list all routes (remove in production)
+@app.get("/debug/routes", tags=["Debug"])
+async def debug_routes():
+    """List all registered routes (debug only)"""
+    routes = []
+    for route in app.routes:
+        routes.append({
+            "path": route.path,
+            "name": route.name,
+            "methods": list(route.methods) if hasattr(route, 'methods') else None
+        })
+    return {"routes": routes}
 
 # Serve frontend static files
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+try:
+    # Check if frontend directory exists
+    if os.path.exists("frontend"):
+        app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+        logger.info("Frontend static files mounted from 'frontend' directory")
+    else:
+        logger.warning("Frontend directory not found - API only mode")
+except Exception as e:
+    logger.error(f"Failed to mount frontend: {e}")
 
 if __name__ == "__main__":
     import uvicorn
@@ -303,6 +224,5 @@ if __name__ == "__main__":
         "backend.app:app",
         host=settings.HOST,
         port=settings.PORT,
-        reload=settings.DEBUG,
-        log_level="info"
+        reload=settings.DEBUG
     )

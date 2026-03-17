@@ -1,7 +1,8 @@
-// API Configuration
-const API_BASE = '/api/v1';
+// API Configuration - Make sure this points to your backend
+const API_BASE = 'http://localhost:8000/api/v1';
+console.log('API Base URL:', API_BASE);
+
 let currentPage = 'dashboard';
-let charts = {};
 
 // State management
 const appState = {
@@ -18,11 +19,30 @@ const appState = {
 
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DSCE Frontend initialized');
+    
+    // Check if backend is reachable
+    checkBackendConnection();
+    
     initializeNavigation();
     initializeEventListeners();
     loadInitialData();
-    startRealTimeUpdates();
 });
+
+// Check backend connection
+async function checkBackendConnection() {
+    try {
+        const response = await fetch('http://localhost:8000/health');
+        if (response.ok) {
+            console.log('✅ Backend connection successful');
+        } else {
+            console.warn('⚠️ Backend connection issue');
+        }
+    } catch (error) {
+        console.error('❌ Cannot connect to backend. Make sure server is running on port 8000');
+        showToast('Cannot connect to backend server. Please check if it\'s running.', 'error');
+    }
+}
 
 // Navigation
 function initializeNavigation() {
@@ -33,6 +53,7 @@ function initializeNavigation() {
         });
     });
     
+    // Quick actions in sidebar
     document.querySelectorAll('.sidebar-section li').forEach(item => {
         if (item.id === 'quick-upload') {
             item.addEventListener('click', showUploadModal);
@@ -63,7 +84,7 @@ function navigateToPage(page) {
             loadDashboardData();
             break;
         case 'search':
-            initializeSearch();
+            // No need to load anything special for search
             break;
         case 'documents':
             loadDocuments();
@@ -79,148 +100,370 @@ function navigateToPage(page) {
 
 // Event Listeners
 function initializeEventListeners() {
-    // Search
-    document.getElementById('search-btn').addEventListener('click', performSearch);
-    document.getElementById('search-input').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') performSearch();
-    });
+    console.log('Initializing event listeners');
     
-    // Search suggestions
-    let suggestionTimeout;
-    document.getElementById('search-input').addEventListener('input', () => {
-        clearTimeout(suggestionTimeout);
-        suggestionTimeout = setTimeout(() => {
-            getSuggestions(document.getElementById('search-input').value);
-        }, 300);
-    });
+    // Search button
+    const searchBtn = document.getElementById('search-btn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', performSearch);
+    }
     
-    // Upload modal
-    document.getElementById('upload-doc-btn').addEventListener('click', showUploadModal);
-    document.getElementById('cancel-upload').addEventListener('click', hideUploadModal);
-    document.querySelector('.close-btn').addEventListener('click', hideUploadModal);
-    document.getElementById('submit-upload').addEventListener('click', uploadDocument);
+    // Search input (Enter key)
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Search suggestions
+        let suggestionTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(suggestionTimeout);
+            suggestionTimeout = setTimeout(() => {
+                const query = searchInput.value;
+                if (query.length >= 2) {
+                    getSuggestions(query);
+                }
+            }, 300);
+        });
+    }
+    
+    // Home page search
+    const homeSearchBtn = document.getElementById('home-search-btn');
+    const homeSearchInput = document.getElementById('home-search');
+    
+    if (homeSearchBtn && homeSearchInput) {
+        homeSearchBtn.addEventListener('click', () => {
+            const query = homeSearchInput.value.trim();
+            if (query) {
+                // Switch to search page
+                const searchNav = document.querySelector('[data-page="search"]');
+                if (searchNav) searchNav.click();
+                
+                // Set search input value
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) searchInput.value = query;
+                
+                // Perform search
+                setTimeout(performSearch, 100);
+            }
+        });
+        
+        homeSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                homeSearchBtn.click();
+            }
+        });
+    }
+    
+    // Upload modal buttons
+    const uploadBtn = document.getElementById('upload-doc-btn');
+    if (uploadBtn) {
+        uploadBtn.addEventListener('click', showUploadModal);
+    }
+    
+    const cancelUpload = document.getElementById('cancel-upload');
+    if (cancelUpload) {
+        cancelUpload.addEventListener('click', hideUploadModal);
+    }
+    
+    const closeBtn = document.querySelector('.close-btn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', hideUploadModal);
+    }
+    
+    const submitUpload = document.getElementById('submit-upload');
+    if (submitUpload) {
+        submitUpload.addEventListener('click', uploadDocument);
+    }
     
     // File upload
-    document.getElementById('file-upload').addEventListener('change', handleFileUpload);
+    const fileUpload = document.getElementById('file-upload');
+    if (fileUpload) {
+        fileUpload.addEventListener('change', handleFileUpload);
+    }
     
     // Document filters
-    document.getElementById('doc-filter').addEventListener('input', filterDocuments);
-    document.getElementById('doc-sort').addEventListener('change', sortDocuments);
+    const docFilter = document.getElementById('doc-filter');
+    if (docFilter) {
+        docFilter.addEventListener('input', filterDocuments);
+    }
+    
+    const docSort = document.getElementById('doc-sort');
+    if (docSort) {
+        docSort.addEventListener('change', sortDocuments);
+    }
     
     // Analytics range
-    document.getElementById('analytics-range').addEventListener('change', loadAnalyticsData);
+    const analyticsRange = document.getElementById('analytics-range');
+    if (analyticsRange) {
+        analyticsRange.addEventListener('change', loadAnalyticsData);
+    }
     
     // Refresh button
-    document.querySelector('.refresh-btn')?.addEventListener('click', () => {
-        loadAnalyticsData();
-        showToast('Data refreshed', 'info');
+    const refreshBtn = document.querySelector('.refresh-btn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            loadAnalyticsData();
+            showToast('Data refreshed', 'info');
+        });
+    }
+    
+    // Close suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        const suggestions = document.getElementById('suggestions');
+        const searchInput = document.getElementById('search-input');
+        if (suggestions && searchInput && !searchInput.contains(e.target) && !suggestions.contains(e.target)) {
+            suggestions.classList.remove('active');
+        }
     });
 }
 
 // Initial Data Loading
 async function loadInitialData() {
     try {
-        await Promise.all([
-            loadStats(),
-            loadRecentSearches(),
-            loadTopQueries()
-        ]);
-        
-        initializeCharts();
+        await loadStats();
+        await loadRecentSearches();
+        await loadTopQueries();
     } catch (error) {
         console.error('Error loading initial data:', error);
-        showToast('Error loading data', 'error');
     }
 }
 
 // Stats Loading
 async function loadStats() {
     try {
-        const response = await fetch(`${API_BASE}/stats/`);
+        console.log('Loading stats from:', `${API_BASE}/stats/`);
+        const response = await fetch(`${API_BASE}/stats/`, {
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log('Stats loaded:', data);
         
         appState.stats = data;
         
         // Update UI
-        document.getElementById('metric-total-searches').textContent = formatNumber(data.total_searches);
-        document.getElementById('metric-cache-rate').textContent = `${(data.cache_hit_rate * 100).toFixed(1)}%`;
-        document.getElementById('metric-response-time').textContent = `${data.avg_response_time_ms}ms`;
-        document.getElementById('metric-documents').textContent = formatNumber(data.total_documents);
+        const metricTotal = document.getElementById('metric-total-searches');
+        if (metricTotal) metricTotal.textContent = formatNumber(data.total_searches || 0);
+        
+        const metricCache = document.getElementById('metric-cache-rate');
+        if (metricCache) metricCache.textContent = `${((data.cache_hit_rate || 0) * 100).toFixed(1)}%`;
+        
+        const metricResponse = document.getElementById('metric-response-time');
+        if (metricResponse) metricResponse.textContent = `${data.avg_response_time_ms || 0}ms`;
+        
+        const metricDocs = document.getElementById('metric-documents');
+        if (metricDocs) metricDocs.textContent = formatNumber(data.total_documents || 0);
         
         // Sidebar stats
-        document.getElementById('sidebar-doc-count').textContent = formatNumber(data.total_documents);
-        document.getElementById('sidebar-cache-size').textContent = `${data.index_size_mb.toFixed(1)}MB`;
+        const sidebarDocCount = document.getElementById('sidebar-doc-count');
+        if (sidebarDocCount) sidebarDocCount.textContent = formatNumber(data.total_documents || 0);
+        
+        // Update analytics page if visible
+        if (currentPage === 'analytics') {
+            updateAnalyticsPage(data);
+        }
         
     } catch (error) {
         console.error('Error loading stats:', error);
+        // Show user-friendly message
+        const metricDocs = document.getElementById('metric-documents');
+        if (metricDocs) metricDocs.textContent = '?';
     }
+}
+
+// Update analytics page
+function updateAnalyticsPage(data) {
+    const avgTime = document.getElementById('analytics-avg-time');
+    if (avgTime) avgTime.textContent = `${data.avg_response_time_ms || 0} ms`;
+    
+    const hitRate = document.getElementById('analytics-hit-rate');
+    if (hitRate) hitRate.textContent = `${((data.cache_hit_rate || 0) * 100).toFixed(1)}%`;
+    
+    const totalDocs = document.getElementById('analytics-docs');
+    if (totalDocs) totalDocs.textContent = formatNumber(data.total_documents || 0);
+    
+    // Update cache stats
+    const hits = document.getElementById('analytics-hits');
+    if (hits) hits.textContent = formatNumber(data.performance_metrics?.cache_hits || 0);
+    
+    const misses = document.getElementById('analytics-misses');
+    if (misses) misses.textContent = formatNumber(data.performance_metrics?.cache_misses || 0);
 }
 
 // Search Functionality
 async function performSearch() {
-    const query = document.getElementById('search-input').value.trim();
+    const searchInput = document.getElementById('search-input');
+    if (!searchInput) return;
+    
+    const query = searchInput.value.trim();
     if (!query) {
         showToast('Please enter a search query', 'warning');
         return;
     }
     
-    const exactMatch = document.getElementById('exact-match').checked;
-    const synonymExpand = document.getElementById('synonym-expand').checked;
-    const fuzzySearch = document.getElementById('fuzzy-search').checked;
+    const resultsDiv = document.getElementById('results-list');
+    const resultsHeader = document.getElementById('results-header');
     
-    showLoading(true);
+    if (!resultsDiv) return;
+    
+    // Show loading
+    resultsDiv.innerHTML = '<div class="loading-spinner"></div><div class="loading-text">Searching...</div>';
     
     try {
-        const response = await fetch(
-            `${API_BASE}/search/?q=${encodeURIComponent(query)}&limit=10`
-        );
-        const data = await response.json();
+        console.log(`Searching for: ${query}`);
+        const response = await fetch(`${API_BASE}/search/?q=${encodeURIComponent(query)}&limit=10`, {
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         
-        displayResults(data);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Search results:', data);
+        
+        // Update results header
+        if (resultsHeader) {
+            const cacheIcon = data.cache_hit ? '⚡' : '💾';
+            resultsHeader.innerHTML = `
+                <span id="result-stats">Found ${data.total_results || 0} results in ${data.execution_time_ms || 0}ms ${cacheIcon}</span>
+                <span class="cache-badge ${data.cache_hit ? 'hit' : 'miss'}">
+                    ${data.cache_hit ? 'CACHE HIT' : 'CACHE MISS'}
+                </span>
+            `;
+        }
+        
+        if (data.results && data.results.length > 0) {
+            displayResults(data.results);
+        } else {
+            resultsDiv.innerHTML = '<div class="no-results">No results found. Try a different search term.</div>';
+        }
+        
+        // Add to recent searches
         addToRecentSearches(query);
-        updateResultStats(data);
         
     } catch (error) {
         console.error('Search error:', error);
-        showToast('Search failed', 'error');
-    } finally {
-        showLoading(false);
+        resultsDiv.innerHTML = '<div class="error">Error performing search. Make sure backend is running on port 8000.</div>';
+        showToast('Search failed: Cannot connect to backend', 'error');
     }
 }
 
-function displayResults(data) {
-    const resultsList = document.getElementById('results-list');
+function displayResults(results) {
+    const container = document.getElementById('results-list');
+    if (!container) return;
     
-    if (!data.results || data.results.length === 0) {
-        resultsList.innerHTML = '<div class="no-results">No results found</div>';
-        return;
-    }
+    container.innerHTML = '';
     
-    let html = '';
-    data.results.forEach(result => {
-        html += `
-            <div class="result-card">
-                <h3 class="result-title">${escapeHtml(result.document.title)}</h3>
-                <div class="result-content">${escapeHtml(result.document.content)}</div>
-                <div class="result-meta">
-                    <span class="result-score">Relevance: ${(result.relevance_score * 100).toFixed(1)}%</span>
-                    <span>Author: ${escapeHtml(result.document.author || 'Unknown')}</span>
-                    <span>Words: ${result.document.word_count || 0}</span>
-                </div>
+    results.forEach(result => {
+        const card = document.createElement('div');
+        card.className = 'result-card';
+        
+        // Handle both possible formats
+        const doc = result.document || result;
+        const score = result.relevance_score || (result.score || 0);
+        
+        // Create highlight snippets
+        const content = doc.content || '';
+        const snippet = content.length > 200 ? content.substring(0, 200) + '...' : content;
+        
+        // Format tags
+        const tags = doc.tags || [];
+        const tagsHtml = tags.length ? 
+            `<span>Tags: ${tags.map(t => `<span class="tag">${t}</span>`).join(' ')}</span>` : '';
+        
+        card.innerHTML = `
+            <h3 class="result-title">${escapeHtml(doc.title || 'Untitled')}</h3>
+            <div class="result-content">${escapeHtml(snippet)}</div>
+            <div class="result-meta">
+                <span class="result-score">Relevance: ${(score * 100).toFixed(1)}%</span>
+                <span>Author: ${escapeHtml(doc.author || 'Unknown')}</span>
+                <span>Words: ${doc.word_count || 0}</span>
+                ${tagsHtml}
             </div>
         `;
+        
+        container.appendChild(card);
     });
-    
-    resultsList.innerHTML = html;
 }
 
-// Document Management
-async function loadDocuments() {
-    showLoading(true);
+// Get search suggestions
+async function getSuggestions(query) {
+    if (query.length < 2) return;
     
     try {
-        const response = await fetch(`${API_BASE}/documents/?limit=50`);
+        const response = await fetch(`${API_BASE}/search/suggest?q=${encodeURIComponent(query)}&limit=5`, {
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        const suggestionsContainer = document.getElementById('suggestions');
+        
+        if (!suggestionsContainer) return;
+        
+        if (data.suggestions && data.suggestions.length > 0) {
+            suggestionsContainer.innerHTML = '';
+            data.suggestions.forEach(suggestion => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.textContent = suggestion;
+                div.addEventListener('click', () => {
+                    const searchInput = document.getElementById('search-input');
+                    if (searchInput) {
+                        searchInput.value = suggestion;
+                        suggestionsContainer.classList.remove('active');
+                        performSearch();
+                    }
+                });
+                suggestionsContainer.appendChild(div);
+            });
+            suggestionsContainer.classList.add('active');
+        } else {
+            suggestionsContainer.classList.remove('active');
+        }
+    } catch (error) {
+        console.error('Suggestion error:', error);
+    }
+}
+
+// Load documents
+async function loadDocuments() {
+    const tbody = document.getElementById('documents-body');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '<tr><td colspan="7" class="loading">Loading documents...</td></tr>';
+    
+    try {
+        const response = await fetch(`${API_BASE}/documents/?limit=50`, {
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const documents = await response.json();
+        console.log('Documents loaded:', documents);
         
         appState.documents = documents;
         displayDocuments(documents);
@@ -228,14 +471,13 @@ async function loadDocuments() {
         
     } catch (error) {
         console.error('Error loading documents:', error);
-        showToast('Error loading documents', 'error');
-    } finally {
-        showLoading(false);
+        tbody.innerHTML = '<tr><td colspan="7" class="error">Error loading documents. Make sure backend is running.</td></tr>';
     }
 }
 
 function displayDocuments(documents) {
     const tbody = document.getElementById('documents-body');
+    if (!tbody) return;
     
     if (!documents || documents.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7" class="loading">No documents found</td></tr>';
@@ -244,14 +486,17 @@ function displayDocuments(documents) {
     
     let html = '';
     documents.forEach(doc => {
+        const tags = doc.tags || [];
+        const tagsHtml = tags.map(t => `<span class="tag">${t}</span>`).join(' ');
+        
         html += `
             <tr>
                 <td><input type="checkbox"></td>
-                <td>${escapeHtml(doc.title)}</td>
+                <td>${escapeHtml(doc.title || 'Untitled')}</td>
                 <td>${escapeHtml(doc.author || 'Unknown')}</td>
-                <td>${formatTags(doc.tags)}</td>
-                <td>${formatBytes(doc.word_count * 5)}</td>
-                <td>${formatDate(doc.created_at)}</td>
+                <td>${tagsHtml}</td>
+                <td>${formatBytes((doc.word_count || 0) * 5)}</td>
+                <td>${formatDate(doc.created_at) || 'Unknown'}</td>
                 <td class="doc-actions">
                     <button onclick="viewDocument('${doc.id}')"><i class="fas fa-eye"></i></button>
                     <button onclick="editDocument('${doc.id}')"><i class="fas fa-edit"></i></button>
@@ -264,159 +509,332 @@ function displayDocuments(documents) {
     tbody.innerHTML = html;
 }
 
-// Analytics
+function updateDocumentStats(documents) {
+    const totalDocs = document.getElementById('doc-total');
+    const indexedDocs = document.getElementById('doc-indexed');
+    const totalSize = document.getElementById('doc-size');
+    const lastUpdate = document.getElementById('doc-last-update');
+    
+    if (totalDocs) totalDocs.textContent = documents.length;
+    if (indexedDocs) indexedDocs.textContent = documents.length;
+    if (totalSize) totalSize.textContent = formatBytes(documents.reduce((acc, doc) => acc + (doc.word_count || 0) * 5, 0));
+    if (lastUpdate) lastUpdate.textContent = 'Just now';
+}
+
+// Load analytics
 async function loadAnalyticsData() {
     try {
-        const response = await fetch(`${API_BASE}/stats/`);
-        const stats = await response.json();
+        const response = await fetch(`${API_BASE}/stats/`, {
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) return;
         
-        // Update analytics cards
-        document.getElementById('analytics-avg-time').textContent = `${stats.avg_response_time_ms} ms`;
-        document.getElementById('analytics-hit-rate').textContent = `${(stats.cache_hit_rate * 100).toFixed(1)}%`;
-        document.getElementById('analytics-docs').textContent = formatNumber(stats.total_documents);
-        
-        // Update cache stats
-        document.getElementById('analytics-hits').textContent = formatNumber(stats.performance_metrics.cache_hits || 0);
-        document.getElementById('analytics-misses').textContent = formatNumber(stats.performance_metrics.cache_misses || 0);
-        
-        // Update charts
-        updateAnalyticsCharts(stats);
+        const data = await response.json();
+        updateAnalyticsPage(data);
         
     } catch (error) {
         console.error('Error loading analytics:', error);
     }
 }
 
-// System Status
+// Load system status
 async function loadSystemStatus() {
     try {
-        const response = await fetch('/health');
+        const response = await fetch('http://localhost:8000/health', {
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) return;
+        
         const health = await response.json();
+        console.log('System health:', health);
+        
+        // Update timestamp
+        const timestamp = document.getElementById('status-timestamp');
+        if (timestamp) timestamp.textContent = new Date().toLocaleTimeString();
         
         // Update API status
-        document.getElementById('status-timestamp').textContent = moment().format('HH:mm:ss');
-        document.getElementById('status-api-requests').textContent = Math.floor(Math.random() * 2000) + 1000;
-        document.getElementById('status-api-latency').textContent = `${Math.floor(Math.random() * 50) + 50}ms`;
+        const apiRequests = document.getElementById('status-api-requests');
+        if (apiRequests) apiRequests.textContent = Math.floor(Math.random() * 2000) + 1000;
+        
+        const apiLatency = document.getElementById('status-api-latency');
+        if (apiLatency) apiLatency.textContent = `${Math.floor(Math.random() * 50) + 50}ms`;
         
         // Update Redis info
-        const redisInfo = await getRedisInfo();
-        document.getElementById('status-redis-memory').textContent = redisInfo.memory;
-        document.getElementById('status-redis-hitrate').textContent = redisInfo.hitRate;
-        document.getElementById('status-redis-clients').textContent = redisInfo.clients;
-        document.getElementById('status-redis-keys').textContent = redisInfo.keys;
+        const redisMemory = document.getElementById('status-redis-memory');
+        if (redisMemory) redisMemory.textContent = '156 MB / 512 MB';
+        
+        const redisHitRate = document.getElementById('status-redis-hitrate');
+        if (redisHitRate) redisHitRate.textContent = '76.4%';
+        
+        const redisClients = document.getElementById('status-redis-clients');
+        if (redisClients) redisClients.textContent = '8';
+        
+        const redisKeys = document.getElementById('status-redis-keys');
+        if (redisKeys) redisKeys.textContent = '1,234';
         
     } catch (error) {
         console.error('Error loading system status:', error);
     }
 }
 
-// Charts
-function initializeCharts() {
-    // Search Volume Chart
-    const searchCtx = document.getElementById('search-volume-chart').getContext('2d');
-    charts.searchVolume = new Chart(searchCtx, {
-        type: 'line',
-        data: {
-            labels: generateTimeLabels(24),
-            datasets: [{
-                label: 'Search Volume',
-                data: generateRandomData(24, 50, 200),
-                borderColor: '#ff9900',
-                backgroundColor: 'rgba(255, 153, 0, 0.1)',
-                tension: 0.4,
-                fill: true
-            }]
-        },
-        options: getChartOptions('Searches')
-    });
+// Load dashboard data
+function loadDashboardData() {
+    loadStats();
+    loadTopQueries();
+    updateActivityFeed();
+}
+
+// Load top queries
+async function loadTopQueries() {
+    const tbody = document.getElementById('top-queries-body');
+    if (!tbody) return;
     
-    // Cache Performance Chart
-    const cacheCtx = document.getElementById('cache-performance-chart').getContext('2d');
-    charts.cachePerformance = new Chart(cacheCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Cache Hit', 'Cache Miss'],
-            datasets: [{
-                data: [76, 24],
-                backgroundColor: ['#10b981', '#ef4444'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
+    try {
+        const response = await fetch(`${API_BASE}/stats/`, {
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
             }
+        });
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        const topQueries = data.top_queries || [];
+        
+        if (topQueries.length > 0) {
+            let html = '';
+            topQueries.forEach(q => {
+                html += `
+                    <tr>
+                        <td>${escapeHtml(q.query)}</td>
+                        <td>${q.count}</td>
+                        <td>${((data.cache_hit_rate || 0) * 100).toFixed(1)}%</td>
+                        <td>${data.avg_response_time_ms || 0}ms</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        } else {
+            tbody.innerHTML = '<tr><td colspan="4" class="loading">No data available</td></tr>';
         }
-    });
-    
-    // Hit/Miss Chart
-    const hitMissCtx = document.getElementById('hit-miss-chart').getContext('2d');
-    charts.hitMiss = new Chart(hitMissCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Hits', 'Misses'],
-            datasets: [{
-                data: [76, 24],
-                backgroundColor: ['#10b981', '#ef4444'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-}
-
-// Helper Functions
-function formatNumber(num) {
-    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-    return num.toString();
-}
-
-function formatBytes(bytes) {
-    if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-}
-
-function formatDate(dateString) {
-    return moment(dateString).format('MMM D, YYYY');
-}
-
-function formatTags(tags) {
-    if (!tags || tags.length === 0) return '-';
-    return tags.map(t => `<span class="tag">${t}</span>`).join(' ');
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function showLoading(show) {
-    const loader = document.getElementById('loading-spinner');
-    if (loader) {
-        loader.style.display = show ? 'block' : 'none';
+    } catch (error) {
+        console.error('Error loading top queries:', error);
+        tbody.innerHTML = '<tr><td colspan="4" class="error">Error loading data</td></tr>';
     }
 }
 
-// Toast Notifications
+// Load recent searches
+async function loadRecentSearches() {
+    const list = document.getElementById('recent-searches-list');
+    if (!list) return;
+    
+    // Mock data for now
+    const recent = ['AI', 'machine learning', 'redis', 'database', 'python'];
+    let html = '';
+    recent.forEach(item => {
+        html += `<li><i class="fas fa-history"></i> ${escapeHtml(item)}</li>`;
+    });
+    list.innerHTML = html;
+}
+
+// Add to recent searches
+function addToRecentSearches(query) {
+    console.log('Recent search:', query);
+    // This would update the backend in a real implementation
+}
+
+// Update activity feed
+function updateActivityFeed() {
+    const feed = document.getElementById('activity-feed');
+    if (!feed) return;
+    
+    const activities = [
+        { type: 'search', text: 'Searched for "machine learning"', time: 'just now', cache: true },
+        { type: 'search', text: 'Searched for "redis cache"', time: '1 min ago', cache: true },
+        { type: 'upload', text: 'Document uploaded: "AI Research"', time: '3 mins ago' },
+        { type: 'search', text: 'Searched for "distributed systems"', time: '5 mins ago', cache: false }
+    ];
+    
+    let html = '';
+    activities.forEach(activity => {
+        html += `
+            <div class="activity-item">
+                <i class="fas fa-${activity.type === 'search' ? 'search' : 'file-upload'} activity-icon"></i>
+                <div class="activity-details">
+                    <span class="activity-text">${activity.text}</span>
+                    <span class="activity-time">${activity.time}</span>
+                </div>
+                ${activity.cache !== undefined ? 
+                    `<span class="cache-badge ${activity.cache ? 'hit' : 'miss'}">${activity.cache ? 'HIT' : 'MISS'}</span>` : ''}
+            </div>
+        `;
+    });
+    
+    feed.innerHTML = html;
+}
+
+// Modal functions
+function showUploadModal() {
+    const modal = document.getElementById('upload-modal');
+    if (modal) modal.classList.add('show');
+}
+
+function hideUploadModal() {
+    const modal = document.getElementById('upload-modal');
+    if (modal) {
+        modal.classList.remove('show');
+        const form = document.getElementById('upload-form');
+        if (form) form.reset();
+    }
+}
+
+// Upload document
+async function uploadDocument() {
+    const title = document.getElementById('doc-title')?.value;
+    const content = document.getElementById('doc-content')?.value;
+    const author = document.getElementById('doc-author')?.value;
+    const tagsInput = document.getElementById('doc-tags')?.value;
+    
+    if (!title || !content) {
+        showToast('Title and content are required', 'warning');
+        return;
+    }
+    
+    const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
+    
+    const document = {
+        title,
+        content,
+        author: author || undefined,
+        tags
+    };
+    
+    try {
+        console.log('Uploading document:', document);
+        const response = await fetch(`${API_BASE}/documents/`, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(document)
+        });
+        
+        if (response.ok) {
+            showToast('Document uploaded successfully', 'success');
+            hideUploadModal();
+            loadDocuments();
+            loadStats();
+        } else {
+            const error = await response.text();
+            showToast('Upload failed: ' + error, 'error');
+        }
+    } catch (error) {
+        console.error('Upload error:', error);
+        showToast('Upload failed: Cannot connect to backend', 'error');
+    }
+}
+
+// Handle file upload
+function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const contentArea = document.getElementById('doc-content');
+        const titleArea = document.getElementById('doc-title');
+        if (contentArea) contentArea.value = e.target.result;
+        if (titleArea) titleArea.value = file.name.replace(/\.[^/.]+$/, '');
+    };
+    reader.readAsText(file);
+}
+
+// Filter documents
+function filterDocuments() {
+    const filter = document.getElementById('doc-filter')?.value.toLowerCase() || '';
+    const filtered = appState.documents.filter(doc => 
+        (doc.title || '').toLowerCase().includes(filter) || 
+        (doc.content || '').toLowerCase().includes(filter) ||
+        (doc.author || '').toLowerCase().includes(filter)
+    );
+    displayDocuments(filtered);
+}
+
+// Sort documents
+function sortDocuments() {
+    const sortBy = document.getElementById('doc-sort')?.value || 'date';
+    const sorted = [...appState.documents];
+    
+    if (sortBy.includes('Date')) {
+        sorted.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    } else if (sortBy.includes('Title')) {
+        sorted.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    } else if (sortBy.includes('Size')) {
+        sorted.sort((a, b) => (b.word_count || 0) - (a.word_count || 0));
+    }
+    
+    displayDocuments(sorted);
+}
+
+// Document actions
+window.viewDocument = function(id) {
+    console.log('View document:', id);
+    showToast('View document: ' + id, 'info');
+};
+
+window.editDocument = function(id) {
+    console.log('Edit document:', id);
+    showToast('Edit document: ' + id, 'info');
+};
+
+window.deleteDocument = async function(id) {
+    if (!confirm('Are you sure you want to delete this document?')) return;
+    
+    try {
+        const response = await fetch(`${API_BASE}/documents/${id}`, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.ok) {
+            showToast('Document deleted successfully', 'success');
+            loadDocuments();
+            loadStats();
+        } else {
+            showToast('Delete failed', 'error');
+        }
+    } catch (error) {
+        console.error('Delete error:', error);
+        showToast('Delete failed: Cannot connect to backend', 'error');
+    }
+};
+
+// Cache management
+async function clearCache() {
+    if (!confirm('Are you sure you want to clear the cache?')) return;
+    showToast('Cache cleared successfully', 'success');
+}
+
+// Index management
+async function rebuildIndex() {
+    if (!confirm('Rebuilding index may take a few minutes. Continue?')) return;
+    showToast('Index rebuild started', 'info');
+    setTimeout(() => {
+        showToast('Index rebuilt successfully', 'success');
+    }, 3000);
+}
+
+// Toast notifications
 function showToast(message, type = 'info') {
     const container = document.getElementById('toast-container');
+    if (!container) return;
+    
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     
@@ -447,195 +865,43 @@ function showToast(message, type = 'info') {
     });
 }
 
-// Real-time Updates
-function startRealTimeUpdates() {
-    // Update stats every 5 seconds
-    setInterval(() => {
-        if (currentPage === 'dashboard') {
-            loadStats();
-        }
-    }, 5000);
-    
-    // Update activity feed every 10 seconds
-    setInterval(() => {
-        if (currentPage === 'dashboard') {
-            updateActivityFeed();
-        }
-    }, 10000);
+// Helper functions
+function formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
 }
 
-// Modal Functions
-function showUploadModal() {
-    document.getElementById('upload-modal').classList.add('show');
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 }
 
-function hideUploadModal() {
-    document.getElementById('upload-modal').classList.remove('show');
-    document.getElementById('upload-form').reset();
-}
-
-// Document Upload
-async function uploadDocument() {
-    const title = document.getElementById('doc-title').value;
-    const content = document.getElementById('doc-content').value;
-    const author = document.getElementById('doc-author').value;
-    const tags = document.getElementById('doc-tags').value.split(',').map(t => t.trim()).filter(t => t);
-    
-    if (!title || !content) {
-        showToast('Title and content are required', 'warning');
-        return;
-    }
-    
-    const document = {
-        title,
-        content,
-        author: author || undefined,
-        tags
-    };
-    
+function formatDate(dateString) {
+    if (!dateString) return null;
     try {
-        const response = await fetch(`${API_BASE}/documents/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(document)
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
         });
-        
-        if (response.ok) {
-            showToast('Document uploaded successfully', 'success');
-            hideUploadModal();
-            loadDocuments();
-        } else {
-            showToast('Upload failed', 'error');
-        }
-    } catch (error) {
-        console.error('Upload error:', error);
-        showToast('Upload failed', 'error');
+    } catch {
+        return null;
     }
 }
 
-// File Upload Handler
-function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        document.getElementById('doc-content').value = e.target.result;
-        document.getElementById('doc-title').value = file.name.replace(/\.[^/.]+$/, '');
-    };
-    reader.readAsText(file);
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
-// Cache Management
-async function clearCache() {
-    if (!confirm('Are you sure you want to clear the cache?')) return;
-    
-    try {
-        // This would call your cache clear endpoint
-        showToast('Cache cleared successfully', 'success');
-    } catch (error) {
-        showToast('Failed to clear cache', 'error');
-    }
+// Initialize charts (placeholder)
+function initializeCharts() {
+    console.log('Charts would be initialized here');
 }
-
-// Index Management
-async function rebuildIndex() {
-    if (!confirm('Rebuilding index may take a few minutes. Continue?')) return;
-    
-    showToast('Index rebuild started', 'info');
-    
-    // Simulate rebuild
-    setTimeout(() => {
-        showToast('Index rebuilt successfully', 'success');
-    }, 3000);
-}
-
-// Chart Options
-function getChartOptions(yAxisLabel) {
-    return {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                mode: 'index',
-                intersect: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.05)'
-                },
-                title: {
-                    display: true,
-                    text: yAxisLabel
-                }
-            },
-            x: {
-                grid: {
-                    display: false
-                }
-            }
-        }
-    };
-}
-
-// Generate mock data for charts
-function generateTimeLabels(hours) {
-    const labels = [];
-    for (let i = hours; i > 0; i--) {
-        labels.push(moment().subtract(i, 'hours').format('HH:00'));
-    }
-    return labels;
-}
-
-function generateRandomData(points, min, max) {
-    return Array.from({ length: points }, () => 
-        Math.floor(Math.random() * (max - min + 1)) + min
-    );
-}
-
-// Mock Redis Info
-async function getRedisInfo() {
-    return {
-        memory: '156 MB / 512 MB',
-        hitRate: '76.4%',
-        clients: '8',
-        keys: '1,234'
-    };
-}
-
-// Activity Feed
-function updateActivityFeed() {
-    const feed = document.getElementById('activity-feed');
-    const activities = [
-        { type: 'search', text: 'Searched for "machine learning"', time: 'just now', cache: true },
-        { type: 'search', text: 'Searched for "redis cache"', time: '1 min ago', cache: true },
-        { type: 'upload', text: 'Document uploaded: "AI Research Paper"', time: '3 mins ago' },
-        { type: 'search', text: 'Searched for "distributed systems"', time: '5 mins ago', cache: false }
-    ];
-    
-    let html = '';
-    activities.forEach(activity => {
-        html += `
-            <div class="activity-item">
-                <i class="fas fa-${activity.type === 'search' ? 'search' : 'file-upload'} activity-icon"></i>
-                <div class="activity-details">
-                    <span class="activity-text">${activity.text}</span>
-                    <span class="activity-time">${activity.time}</span>
-                </div>
-                ${activity.cache !== undefined ? 
-                    `<span class="cache-hit">${activity.cache ? 'CACHE' : 'MISS'}</span>` : ''}
-            </div>
-        `;
-    });
-    
-    feed.innerHTML = html;
-}
-
-// Initialize everything
-console.log('DSCE Frontend initialized');

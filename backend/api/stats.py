@@ -1,21 +1,25 @@
-from fastapi import APIRouter, HTTPException
-from typing import Optional
-import logging
+"""
+Statistics API Routes
+Handles system statistics and monitoring
+"""
 
-from ..schemas import StatsResponse
+from fastapi import APIRouter, HTTPException
+import logging
+from datetime import datetime
+
 from ..services.analytics_service import AnalyticsService
 from ..services.cache_service import CacheService
 from ..services.indexing_service import IndexingService
-from ..utils.logger import get_logger
 
-router = APIRouter(prefix="/api/v1/stats", tags=["statistics"])
-logger = get_logger(__name__)
+router = APIRouter(tags=["statistics"])
+logger = logging.getLogger(__name__)
 
+# Initialize services
 analytics_service = AnalyticsService()
 cache_service = CacheService()
 indexing_service = IndexingService()
 
-@router.get("/", response_model=StatsResponse)
+@router.get("/stats/")
 async def get_statistics():
     """
     Get system statistics and performance metrics
@@ -27,30 +31,39 @@ async def get_statistics():
         index_stats = await indexing_service.get_index_statistics()
         
         # Combine statistics
-        stats = StatsResponse(
-            total_searches=search_stats['total_searches'],
-            unique_queries=search_stats['unique_queries'],
-            cache_hit_rate=cache_stats['hit_rate'],
-            avg_response_time_ms=search_stats['avg_response_time'],
-            total_documents=index_stats['total_documents'],
-            index_size_mb=index_stats['size_mb'],
-            top_queries=search_stats['top_queries'],
-            performance_metrics={
-                'p95_response_time_ms': search_stats['p95_response_time'],
-                'p99_response_time_ms': search_stats['p99_response_time'],
-                'cache_hits': cache_stats['hits'],
-                'cache_misses': cache_stats['misses'],
-                'documents_per_shard': index_stats['documents_per_shard']
+        stats = {
+            "total_searches": search_stats.get('total_searches', 0),
+            "unique_queries": search_stats.get('unique_queries', 0),
+            "cache_hit_rate": cache_stats.get('hit_rate', 0),
+            "avg_response_time_ms": search_stats.get('avg_response_time', 0),
+            "total_documents": index_stats.get('total_documents', 0),
+            "index_size_mb": index_stats.get('size_mb', 0),
+            "top_queries": search_stats.get('top_queries', []),
+            "performance_metrics": {
+                "p95_response_time_ms": search_stats.get('p95_response_time', 0),
+                "p99_response_time_ms": search_stats.get('p99_response_time', 0),
+                "cache_hits": cache_stats.get('hits', 0),
+                "cache_misses": cache_stats.get('misses', 0),
+                "documents_per_shard": index_stats.get('documents_per_shard', {})
             }
-        )
+        }
         
         return stats
         
     except Exception as e:
-        logger.error(f"Error getting statistics: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error retrieving statistics")
+        logger.error(f"Error getting statistics: {e}")
+        return {
+            "total_searches": 0,
+            "unique_queries": 0,
+            "cache_hit_rate": 0,
+            "avg_response_time_ms": 0,
+            "total_documents": 0,
+            "index_size_mb": 0,
+            "top_queries": [],
+            "performance_metrics": {}
+        }
 
-@router.get("/cache")
+@router.get("/stats/cache")
 async def get_cache_stats():
     """
     Get detailed cache statistics
@@ -59,30 +72,18 @@ async def get_cache_stats():
         cache_stats = await cache_service.get_detailed_stats()
         return cache_stats
     except Exception as e:
-        logger.error(f"Error getting cache stats: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error retrieving cache statistics")
+        logger.error(f"Error getting cache stats: {e}")
+        return {}
 
-@router.get("/performance")
-async def get_performance_metrics():
-    """
-    Get detailed performance metrics
-    """
-    try:
-        metrics = await analytics_service.get_performance_metrics()
-        return metrics
-    except Exception as e:
-        logger.error(f"Error getting performance metrics: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error retrieving performance metrics")
-
-@router.get("/health")
+@router.get("/stats/health")
 async def health_check():
     """
-    Health check endpoint
+    Health check for all services
     """
     services = {
-        'database': await indexing_service.check_health(),
-        'redis': await cache_service.check_health(),
-        'worker': await analytics_service.check_health()
+        'database': await indexing_service.health_check(),
+        'redis': await cache_service.health_check(),
+        'analytics': await analytics_service.health_check()
     }
     
     overall_health = all(services.values())

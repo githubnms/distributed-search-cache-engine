@@ -1,8 +1,10 @@
 """
-API package initialization
+API Package
+Exports all routers
 """
-from fastapi import APIRouter
 
-api_router = APIRouter()
+from . import search
+from . import documents
+from . import stats
 
-from . import search, documents, stats
+__all__ = ['search', 'documents', 'stats']

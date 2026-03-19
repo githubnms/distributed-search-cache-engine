@@ -1,72 +1,244 @@
 version: '3.8'
 
 services:
-  # API Service
+  # API Service - Main application
   api:
     build:
-      context: ..
+      context: .
       dockerfile: docker/Dockerfile
     container_name: dsce-api
     ports:
       - "8000:8000"
     environment:
       - ENVIRONMENT=production
-      - DATABASE_URL=sqlite:///./data/dsce.db
+      - DATABASE_URL=postgresql://user:password@postgres:5432/dsce
       - REDIS_URL=redis://redis:6379
+      - REDIS_SENTINEL_URLS=redis://redis-sentinel:26379
       - CACHE_TTL=300
-      - RATE_LIMIT=100
+      - RATE_LIMIT=1000
       - LOG_LEVEL=INFO
+      - SECRET_KEY=${SECRET_KEY}
+      - WORKERS=4
     volumes:
-      - ./data:/app/data
       - ./logs:/app/logs
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
+      redis-sentinel:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
     networks:
       - dsce-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
-  # Redis Cache
+  # Redis Primary - Main cache node
   redis:
     image: redis:7-alpine
-    container_name: dsce-redis
+    container_name: dsce-redis-primary
+    command: >
+      redis-server --appendonly yes
+                  --maxmemory 2gb
+                  --maxmemory-policy allkeys-lru
+                  --save 900 1
+                  --save 300 10
+                  --save 60 10000
+                  --requirepass ${REDIS_PASSWORD}
+                  --masterauth ${REDIS_PASSWORD}
     ports:
       - "6379:6379"
     volumes:
-      - redis-data:/data
-    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+      - redis-primary-data:/data
     networks:
       - dsce-network
-    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2.5G
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
-  # Redis Commander (optional - for Redis management)
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    container_name: dsce-redis-commander
-    environment:
-      - REDIS_HOSTS=local:redis:6379
+  # Redis Replica - Read replica for scaling
+  redis-replica:
+    image: redis:7-alpine
+    container_name: dsce-redis-replica
+    command: >
+      redis-server --slaveof redis 6379
+                  --requirepass ${REDIS_PASSWORD}
+                  --masterauth ${REDIS_PASSWORD}
     ports:
-      - "8081:8081"
+      - "6380:6379"
+    volumes:
+      - redis-replica-data:/data
     depends_on:
       - redis
     networks:
       - dsce-network
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
-  # Nginx for reverse proxy (optional)
+  # Redis Sentinel - High availability monitoring
+  redis-sentinel:
+    image: redis:7-alpine
+    container_name: dsce-redis-sentinel
+    command: >
+      redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./docker/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    ports:
+      - "26379:26379"
+    depends_on:
+      - redis
+      - redis-replica
+    networks:
+      - dsce-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "26379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # PostgreSQL - Production database
+  postgres:
+    image: postgres:15-alpine
+    container_name: dsce-postgres
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=dsce
+      - POSTGRES_HOST_AUTH_METHOD=scram-sha-256
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dsce-network
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d dsce"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # PgBouncer - Connection pooling for PostgreSQL
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    container_name: dsce-pgbouncer
+    environment:
+      - DB_USER=user
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=postgres
+      - DB_NAME=dsce
+      - POOL_MODE=transaction
+      - MAX_CLIENT_CONN=1000
+      - DEFAULT_POOL_SIZE=50
+    ports:
+      - "6432:6432"
+    depends_on:
+      - postgres
+    networks:
+      - dsce-network
+    restart: unless-stopped
+
+  # Nginx - Load balancer and reverse proxy
   nginx:
     image: nginx:alpine
     container_name: dsce-nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/ssl:/etc/nginx/ssl:ro
+      - ./frontend:/usr/share/nginx/html:ro
     depends_on:
       - api
+    networks:
+      - dsce-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+    restart: unless-stopped
+
+  # Prometheus - Metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: dsce-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - dsce-network
+    restart: unless-stopped
+
+  # Grafana - Visualization dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: dsce-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./docker/grafana-dashboards:/etc/grafana/provisioning/dashboards
+    depends_on:
+      - prometheus
+    networks:
+      - dsce-network
+    restart: unless-stopped
+
+  # Locust - Load testing
+  locust:
+    image: locustio/locust:latest
+    container_name: dsce-locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./tests/locustfile.py:/mnt/locust/locustfile.py
+    command: -f /mnt/locust/locustfile.py --host=http://nginx:80
     networks:
       - dsce-network
     restart: unless-stopped
@@ -74,6 +246,13 @@ services:
 networks:
   dsce-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 volumes:
-  redis-data:
+  redis-primary-data:
+  redis-replica-data:
+  postgres-data:
+  prometheus-data:
+  grafana-data:
